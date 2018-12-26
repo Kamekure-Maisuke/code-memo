@@ -536,3 +536,27 @@ end
     end
 end
 ```
+# 練習問題用メモ
+## 標準入力（一行、複数行）
+```ruby
+# 整数の入力
+a = gets.to_i
+# スペース区切りの整数の入力
+b,c=gets.chomp.split(" ").map(&:to_i);
+# 複数行からの値入力
+s = readlines.map &:to_i
+# 文字列の入力
+s = gets.chomp
+# 出力
+print("#{a+b+c} #{s}\n")
+```
+入力例
+```
+2
+2 3
+oono
+```
+出力例
+```
+7 oono
+```

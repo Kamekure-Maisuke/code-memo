@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>タイピングゲーム</title>
+    <style>
+      body{
+        padding-top: 40px;
+        font-family: "Courier New",sans-serif;
+        text-align: center;
+      }
+      h1{
+        font-size: 50px;
+        color:blue;
+      }
+      #target{
+        font-size: 35px;
+        letter-spacing: 3px;
+        cursor: pointer;
+      }
+      .info{
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>タイピングゲーム（大野）</h1>
+    <p id = "target"></p>
+    <p class="info">
+      Letter count: <span id="score"></span>
+      Miss count: <span id="miss"></span>
+      Remaing Time: <span id="timer"></span>
+    </p>
+    <script>
+    (function(){
+      "use strict";
+      var words = [
+        "apple",
+        "imagine",
+        "oono",
+        "taisuke",
+        "banana",
+        "okinawa",
+      ];
+      var currentWord;
+      var currentlocation;
+      var score;
+      var miss;
+      var timer;
+      var target = document.getElementById('target')
+      var scoreLabel = document.getElementById('score')
+      var missLabel = document.getElementById('miss')
+      var timerLabel = document.getElementById('timer')
+      var isStarted;
+      var timerId;
+
+      function init(){
+        currentWord = "clickでスタート";
+        currentlocation = 0;
+        score = 0;
+        miss = 0;
+        timer = 10;
+        target.innerHTML = currentWord;
+        scoreLabel.innerHTML = score;
+        missLabel.innerHTML = miss;
+        timerLabel.innerHTML = timer;
+        isStarted = false;
+      }
+
+      init();
+
+      function updateTimer(){
+        timerId = setTimeout(function(){
+          timer--;
+          timerLabel.innerHTML = timer;
+          if (timer <= 0) {
+            //alert("ゲームオーバー");
+            var accuracy = (score + miss) === 0 ? "0.00" : ((score / (score+miss))
+            * 100).toFixed(2);
+            alert(score + "letters, " + miss + "miss, " + accuracy + "  % accuracy");
+            clearTimeout(timerId);
+            init();
+            return;
+          }
+          updateTimer();
+        },1000);
+      }
+      function setTarget(){
+        currentWord = words[Math.floor(Math.random() * words.length)]
+        target.innerHTML = currentWord;
+        currentlocation = 0;
+      }
+
+      window.addEventListener("click",function(){
+        if (!isStarted) {
+          isStarted = true;
+          setTarget();
+          updateTimer();
+        }
+      });
+
+      window.addEventListener("keyup",function(e){
+        if (!isStarted) {
+          return;
+        }
+        //e.keyCode  入力した値を取得
+        //console.log(String.fromCharCode(e.keyCode));
+        if (String.fromCharCode(e.keyCode) ===
+        currentWord[currentlocation].toUpperCase()) {
+          currentlocation++;
+          var placeholder = "";
+          for (var i = 0;i < currentlocation; i++){
+            placeholder += "_";
+          }
+          target.innerHTML = placeholder + currentWord.substring(currentlocation);
+            score++;
+            scoreLabel.innerHTML = score;
+            if (currentlocation === currentWord.length) {
+              setTarget();
+            }
+        }else {
+          //console.log("miss!");
+          miss++;
+          missLabel.innerHTML = miss;
+        }
+      });
+    })();
+    </script>
+  </body>
+</html>

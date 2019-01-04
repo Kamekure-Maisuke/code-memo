@@ -217,7 +217,7 @@ function showResults() {
 ```
 ### ・確認メッセージの実装
 ### ※スクリプトが押されたときに、確認メッセージを出して、押し間違いを防ぐ。
-※関数名・・・「initAddSheet」「showResults」
+※関数名・・・「initSheet」「initAddSheet」「showResults」
 ```JavaScript
 //　シートの初期化
 function initSheet(){
@@ -279,3 +279,113 @@ function showResults() {
   sheet.getRange(2, 3, results.length, 1).setValues(results);
 }
 ```
+### ・メニューの追加
+### ※タブメニューに、関数メニューを追加。
+※関数名・・・「initSheet」「initAddSheet」「showResults」「onOpen」
+```JavaScript
+//　シートの初期化
+function initSheet(){
+  var sheet = SpreadsheetApp.getActiveSheet();
+  // シート初期化確認メッセージの実装はif文で書く。
+  // msgBoxの引数は、第一引数にメインメッセージ・第二引数にサブメッセージ・第三引数にボタンの種類（今回はOKかCancelのボタンパターン）を指定
+  if(Browser.msgBox("シートの初期化をします。","実行してもよろしい？",Browser.Buttons.OK_CANCEL) === "cancel"){
+    return;
+  }
+  
+  sheet.clear();
+}
+
+//シートの初期化アンド値追加
+function initAddSheet(){
+  var sheet = SpreadsheetApp.getActiveSheet();
+  var names = ["siraisi","kubo","koike","nibu"];
+  var i;
+  var startTime = new Date();
+  
+  // シート初期化アンド値追加確認メッセージの実装は、if文で書く。
+  // msgBoxの引数は、第一引数にメインメッセージ・第二引数にサブメッセージ・第三引数にボタンの種類（今回はOKかCancelのボタンパターン）を指定。
+  if(Browser.msgBox("シートの初期化アンド値追加をします。","実行してもよろしいですか？",Browser.Buttons.OK_CANCEL) === "cancel"){
+    // cancelが押された場合は、「return;」と書いて、処理をストップ。
+    return;
+  }
+  
+  sheet.clear();
+  var scores = [];
+  for(i = 1;i <= 10;i++){
+    scores.push([
+      names[Math.floor(Math.random() * names.length)],
+      Math.floor(Math.random() * 101)
+    ]);
+  }
+  sheet.getRange(2,1,10,2).setValues(scores);
+  Logger.log(new Date() - startTime)
+}
+// 判定結果
+function showResults() {
+  var sheet = SpreadsheetApp.getActiveSheet();
+  var scores = [];
+  var i;
+  var results = [];
+  
+  // 判定確認メッセージ
+  // 書き方は、上記のシート初期化確認メッセージと一緒。
+  if(Browser.msgBox("値の判定をします。", "判定してよろしいでしょうか？", Browser.Buttons.OK_CANCEL) === "cancel"){
+    return;
+  }
+
+  // scoreの値で判定するので、2行目２列目の１０行分の１列分の値取得。
+  // getLastRowは最後の行までという意味。最後の行まで、取ると一個多くなるから、１引く
+  scores = sheet.getRange(2, 2, sheet.getLastRow() - 1, 1).getValues();
+  //ループ処理。８０以上の時に合否判定。
+  for (i = 0; i < scores.length; i++) {
+    results.push([scores[i] >= 80 ? 'PASS' : 'FAIL']);
+  }
+  sheet.getRange(2, 3, results.length, 1).setValues(results);
+}
+
+// メニュー追加
+// ※ファイルが開く際の処理は、onOpen関数を使用
+function onOpen(){
+  // シート全体を指定。
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  // 配列指定
+  var items = [
+    {name: "初期化",functionName: "initSheet"},
+    {name: "初期化アンド値追加",functionName: "initAddSheet"},
+    null,
+    {name: "判定",functionName: "showResults"}
+  ];
+  
+  // メニュー追加の時の関数。
+  spreadsheet.addMenu("値管理", items)
+}
+```
+
+
+## タスク管理作成（シート・フォーム操作）
+### ・手順
+1. タスク管理用の新しいスプレッドシート作成（名前はなんでもよい。）
+2. 1のシートに紐づくGoogleフォーム作成。  
+→シート内のタブメニューの「ツール」から「フォームを作成」  
+→タイトル等を変更
+3. スクリプトエディタを作成。（名前は何でも良い。）
+4. 下記のコードをスクリプトエディタに記述
+```JavaScript
+// フォームの送信イベントの引数指定（今回はeとしておく。）
+function sendTask(e) {
+  // メール送信処理。第一引数に送信先アドレス。第二引数にメールの件名。第三引数にフォームの値取得（メール本文に記載。）
+  MailApp.sendEmail("送信先メールアドレス", "メール件名", e.namedValues["フォームの質問名"]);
+}
+```
+※「送信先メールアドレス」「メール件名」「フォームの質問名」を編集。
+5. 保存。
+6. トリガーで実行する  
+→スクリプトエディタのタブメニューの「編集」から「現在のプロジェクトのトリガー」を選択。  
+→トリガー作成（今回はスプレッドシートからフォーム送信時）して、保存。
+7. シートに戻り、動作確認。  
+→シートのタブメニューの「フォーム」から「実際のフォームを開く」でフォーム表示。  
+8. フォームで回答内容送信
+9. 回答確認  
+→まずはシートに反映されているか、確認。  
+→次にメール受信確認。  
+10. 正常に動作していれば、完了(^^)/

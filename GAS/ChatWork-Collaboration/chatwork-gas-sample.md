@@ -46,7 +46,7 @@ var ROOM_ID = 'チャンネルルームIDを書く。'
 // トレンド通知（新着記事のみ）
 function qiitaNew() {
     var today = new Date();
-    var todayShaping = Utilities.formatDate(today,"JST","yyyy/MM/dd") + "の新着トレンドはこちら\n今日もファイト（*'ω'*）\n"
+    var todayShaping = Utilities.formatDate(today,"JST","yyyy/MM/dd") + "のQiita新着トレンド"
     var message = []
     var html = UrlFetchApp.fetch(QIITA_TRENDS_URL).getContentText()
     var items = Parser.data(html).from('{&quot;followingLikers').to('}}}').iterate()
@@ -69,6 +69,6 @@ function qiitaNew() {
 }
 function sendChatWork(todayShaping,chatWorkMessage) {
     var client = ChatWorkClient.factory({token: CHATWORK_API});
-    client.sendMessage({room_id: ROOM_ID, body: todayShaping + "[info]" +chatWorkMessage + "[/info]"});
+    client.sendMessage({room_id: ROOM_ID, body: "[info][title]" + todayShaping + "[/title]" +chatWorkMessage + "[/info]"});
 }
 ```

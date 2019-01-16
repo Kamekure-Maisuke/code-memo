@@ -72,3 +72,40 @@ function sendChatWork(todayShaping,chatWorkMessage) {
     client.sendMessage({room_id: ROOM_ID, body: "[info][title]" + todayShaping + "[/title]" +chatWorkMessage + "[/info]"});
 }
 ```
+
+## Googleカレンダー予定通知
+チャンネル名 : 「マイチャンネル」  
+※ライブラリ追加は、上記と同様。（スクレイピング用は不要）
+```javascript
+/* 指定のカレンダーの本日の予定をチャットワークに送る */
+function sendSchedule() {
+
+    var myCals=CalendarApp.getCalendarById('XXXXXXXX@gmail.com'); //特定のIDのカレンダーを取得
+    var myEvents=myCals.getEventsForDay(new Date());　//カレンダーの本日のイベントを取得
+
+  /* チャットワークに送る文字列のヘッダー */
+    var strBody = "[info][title]本日の予定：" + Utilities.formatDate(new Date(), 'JST', 'yyyy/MM/dd') + " (roger)[/title]"
+
+  /* イベントの数だけ繰り返し */
+    for(var i=0;i<myEvents.length;i++){
+        var strTitle=myEvents[i].getTitle(); //イベントのタイトル
+        var strStart=_HHmm(myEvents[i].getStartTime()); //イベントの開始時刻
+        var strEnd=_HHmm(myEvents[i].getEndTime()); //イベントの終了時刻
+        strBody=strBody + strStart + ' - ' + strEnd + strTitle + '\n'; //チャットワークに送る文字列にイベント内容を追加
+    }
+
+    strBody = strBody + '[/info]';
+
+  /* チャットワークにメッセージを送る */
+    var cwClient = ChatWorkClient.factory({token: ' XXXXXXXXXXXXXXXX'});　//チャットワークAPI
+    cwClient.sendMessage({
+        room_id:XXXXXXXX, //ルームID
+        body: strBody
+    });
+}
+
+/* 時刻の表記をHH:mmに変更 */
+function _HHmm(str){
+    return Utilities.formatDate(str, 'JST', 'HH:mm');
+}
+```

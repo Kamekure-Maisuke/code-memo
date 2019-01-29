@@ -31,7 +31,6 @@ $ git config --list
 $ git init
 ```
 ### 4. 変更ファイルをGit管理下に追加（ステージング）
-
 ・全て追加。
 ```console
 $ git add .
@@ -53,8 +52,6 @@ $ git add *.html
 $ git add -i
 ```
 ### 5. コミット
-※上がメッセージ無しでステージング分全て。次がメッセージありでステージング分全て。最後がメッセージ無しでファイル名指定。
-
 ・メッセージ無しでステージング分全て。
 ```console
 $ git commit -a
@@ -68,8 +65,6 @@ $ git commit -a -m "First commit"
 $ git commit index.html
 ```
 ### 6. コミット関連各種操作
-※上が直前のコミットメッセージ変更。その次が直前のコミット取り消し（ローカルディレクトリ内容は変更しない。その次がコミットにタグ作成）
-
 ・直前のコミットメッセージ変更
 ```console
 $ git commit --amend
@@ -102,6 +97,10 @@ $ git tag
 ```console
 $ git tag タグ名
 ```
+・コミット履歴確認確認
+```console
+$ git tag タグ名
+```
 
 ### 7. リモート接続（GitHub使用）
 ・リモートリポジトリ接続
@@ -117,5 +116,149 @@ $ git remote -v
 $ git remote set-url origin https://github.com/bbbbb/ccccc.git
 ```
 ### 8. プッシュ
+・カレント（現在作業中）ブランチをリモートの同名ブランチにプッシュ。
+```console
+$ git push origin ブランチ名
 ```
+・カレント（現在作業中）ブランチをリモートの同名ブランチにプッシュ。（※便利）
+```console
+$ git push origin HEAD
+```
+・「u」オプション追加で、ブランチを追跡対象にいれる。
+```console
+$ git push -u origin master
+```
+・「f」オプション追加で、強制プッシュ。
+```console
+$ git push -f origin master
+```
+### 9. クローン
+・リモートからローカルへ持ってくる（クローン）。
+```console
+$ git clone http://abcdef.com/ghijk.git
+```
+・ブランチを指定して、クローンしてくる。(タグ指定も同様。)
+```console
+$ git clone -b ブランチ名 http://abcdef.com/ghijk.git
+```
+### 9. 変更取得
+・リモートから変更点を取得して、反映。（fetchとmergeを同時に行う。）
+```console
+$ git pull
+```
+・リモートから変更点を取得するのみ。反映はしない。
+```console
+$ git fetch
+```
+・取得した変更点を反映する
+```console
+$ git merge FETCH_HEAD
+```
+・取得した変更点を反映する（ブランチ指定）
+```console
+$ git merge ブランチ名
+```
+### 10. 変更状態確認
+・変更状態の確認
+```console
+$ git status
+```
+### 11. 差分確認
+・インデックス（ステージング領域）の変更点比較をする。
+```console
+$ git diff
+```
+・直前コミットの比較をする。
+```console
+$ git diff HEAD
+```
+・直前コミットとインデックスの比較。
+```console
+$ git diff --cached HEAD
+```
+・コミット同士の比較をする。
+```console
+$ git diff 比較元のコミット 比較先のコミット
+```
+### 12. ブランチ操作
+・ブランチ状態確認。
+```console
+$ git branch
+```
+・新しいブランチ作成
+```console
+$ git branch ブランチ名
+```
+・ブランチ切り替え
+```console
+$ git checkout ブランチ名
+```
+・ブランチ作成と切り替えを同時に行う。
+```console
+$ git branch -b ブランチ名
+```
+・ブランチ名の変更
+```console
+$ git branch -m 旧ブランチ名 新ブランチ名
+```
+・ブランチの削除
+```console
+$ git branch -d ブランチ名
+```
+### 13. リベース（整理）
+・分岐元ブランチから分岐先ブランチへ反映。（※実行は分岐先のブランチ２で行う。）
+```console
+$ git rebase 分岐元ブランチ
+```
+### 14. スタッシュ（退避）
+・現在の作業を一時的に退避。
+```console
+$ git stash save
+```
+・退避作業の一覧表示
+```console
+$ git stash list
+```
+・退避作業の復元
+```console
+$ git stash pop
+```
+・退避作業の削除
+```console
+$ git stash drop
+```
+・退避作業の全削除
+```console
+$ git stash clear
+```
+### 15. 検索
+・単純検索
+```console
+$ git grep 検索単語
+```
+・引数指定検索
+```console
+$ git grep -e 検索単語
+```
+・複数単語検索（AND検索）
+```console
+$ git grep -e 検索単語1 --and -e 検索単語2
+```
+### 16. ブレーム（特定）
+・行ごとのコミッター表示。
+```console
+$ git blame ファイル名
+```
+・ブランチを指定して、クローンしてくる。(タグ指定も同様。)
+```console
+$ git clone -b ブランチ名 http://abcdef.com/ghijk.git
+```
+### 17. 掃除
+・不要なオブジェクト（２週間以上経過のもの）を削除して、最適化。
+```console
+$ git gc
+```
+・不要あオブジェクト（全て）を削除して、より強力に最適化。（※頻繁には行わない。）
+```console
+$ git clone -b ブランチ名 http://abcdef.com/ghijk.git
 ```

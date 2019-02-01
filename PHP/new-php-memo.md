@@ -44,3 +44,18 @@ $msg = "文字列";
 // 変数の型情報表示
 var_dump($msg);
 ```
+### 定数
+```php
+<?php
+// 定数の定義（定数名はすべて大文字。複数単語はアンダーバーで区切る。）
+define("MY_VERSION",5.4);
+echo MY_VERSION;
+
+//自動的に定義される定数名
+// 行数表示 
+var_dump(__LINE__);
+// ファイル名表示
+var_dump(__FILE__);
+// ディレクトリ名表示
+var_dump(__DIR__);
+```

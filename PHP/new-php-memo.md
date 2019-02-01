@@ -197,3 +197,23 @@ if($a < $b){
     $max = $b;
 }
 ```
+```php
+// 条件分岐（switch文）
+<?php
+$color = "blue";
+switch ($color) {
+    case "red":
+        echo "止まってください。";
+        break;
+    case "blue":
+    case "green":
+        echo "進んでください。";
+        break;
+    case "yellow":
+        echo "注意してください。";
+        break;
+    default:
+        echo "不正値です。";
+        break;
+}
+```

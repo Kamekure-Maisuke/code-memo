@@ -118,3 +118,42 @@ $number = 56;
 $msg = "番号 : ". $number;
 var_dump($msg);
 ```
+## 条件分岐
+```php
+<?php
+/*
+＜比較演算子＞
+< : ～より小さい
+> : ～より大きい
+<= : ～以下
+>= : ～以上
+== : 値の比較。等しいときにTRUE。
+=== : 値とデータ型の比較（==より厳格）。等しいときにTRUE
+!= : 値の比較。等しくないときにTRUE。
+<> : 値の比較。等しくないときにTRUE。
+!== : 値とデータ型の比較（!=より厳格）。等しくないときにTURE。
+<=> : 宇宙船。
+*/
+
+/*
+＜論理演算子＞
+and : 両方TRUE
+&& : 両方TRUE
+or : どちらかがTRUE
+|| : どちらかがTRUE
+! : 否定。TRUEでないときに、TRUE。
+xor : どちらかがTRUE、かつ両方TRUEではないときに、TRUE。
+*/
+
+// 条件分岐（if）
+$result = 90;
+if($result >= 80){
+    echo "高評価";
+}elseif($result <= 79 and $result >= 50){
+    echo "中評価";
+}elseif($result <= 49 and $result >= 0){
+    echo "低評価";
+}else{
+    echo "不正";
+}
+```

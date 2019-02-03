@@ -220,6 +220,7 @@ switch ($color) {
 
 ## ループ処理
 ```php
+<?php
 // ループ処理(while)
 $i = 1;
 while($i < 5){
@@ -259,4 +260,107 @@ for($i = 1; $i <= 10; $i++){
     }
     echo $i;
 }
+```
+
+## 配列
+```php
+<?php
+// 配列定義（PHP5.4以降）
+// keyとvalue型
+$members = [
+    "oono" => 23,
+    "tanaka" => 34,
+    "satou" => 45,
+];
+// 配列出力
+var_dump($members["oono"]);
+// 配列の値変更
+$members["oono"] = 78;
+var_dump($members["oono"]);
+```
+
+```php
+<?php
+// 配列定義（value指定。keyは番号。）
+$colors = ["red","yellow","blue","green"];
+// 配列の値出力（例では、blue）
+var_dump($colors[2]);
+```
+```php
+<?php
+$colors = ["red","yellow","blue","green"];
+// 配列のループ処理（foreach）
+foreach($colors as $value){
+    echo "$value\n"
+}
+```
+
+```php
+<?php
+$members = [
+    "oono" => 67,
+    "tanaka" => 85,
+    "satou" => 47,
+];
+// 配列のループ処理（foreach、key-value型）
+foreach($members as $key => $value){
+    echo "$key : $value \n";
+}
+```
+
+## コロン構文
+```php
+<?php
+// コロン構文（for）
+// 基本は、「:」で始まり「end~」で終わる。
+// 他にも、foreachやwhileもかける。
+for($i = 1;$i <= 6;$i++):
+    echo $i;
+endfor;
+```
+```html
+<!-- コロン構文は、主にHTMLとPHPが混在しているときに、視認性向上のために、用いられる。 -->
+<?php
+$colors = ["red","blue","yellow"];
+<ul>
+    <?php foreach($colors as $value) : ?>
+    <li><?php echo "$value"; ?></li>
+    <?php endforeach; ?>
+</ul>
+```
+
+## 関数
+```php
+<?php
+// 関数1の定義（引数なし）
+function sayHello(){
+    echo "hello world";
+}
+
+// 関数2の定義（引数指定）
+function showInfo($name){
+    echo "name : $name";
+}
+
+// 関数3の定義（引数複数指定）
+function myInfo($name,$age){
+    echo "name : $name\nage : $age";
+}
+
+// 関数4の定義（戻り値指定）
+function sumCalc($firstNumber,$secondNumber){
+    return $firstNumber + $secondNumber;
+}
+
+// 関数1の表示
+sayHello();
+
+// 関数2の表示
+showInfo("John");
+
+// 関数3の表示
+myInfo("John",56);
+
+// 関数4の表示
+echo "result : ". sumCalc(78,89);
 ```

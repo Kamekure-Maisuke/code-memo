@@ -217,3 +217,46 @@ switch ($color) {
         break;
 }
 ```
+
+## ループ処理
+```php
+// ループ処理(while)
+$i = 1;
+while($i < 5){
+    echo $i;
+    $i++;
+}
+
+// do while(条件をあとに持ってくる。)
+do{
+    echo $i;
+    $i++;
+} while($i < 5);
+
+// ※while文とdo while文の違いは、条件判定を最初に行うか、後に行うかのどちらか。
+// ※「例 : $i = 50」の場合、while文では何も表示されないが、do while文では50のみ表示される。
+```
+
+```php
+// ループ処理(for)
+<?php
+for($i = 1; $i < 5; $i++){
+    echo $i;
+}
+
+// ループ処理（continue使用）
+for($i = 1; $i <= 10; $i++){
+    if($i % 3 == 0){
+        continue;
+    }
+    echo $i;
+}
+
+// ループ処理（break使用）
+for($i = 1; $i <= 10; $i++){
+    if($i === 5){
+        break;
+    }
+    echo $i;
+}
+```

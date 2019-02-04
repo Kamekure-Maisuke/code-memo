@@ -442,3 +442,34 @@ echo $disabledResult;
 $tagDeleteResult = strip_tags($htmlTag);
 echo $tagDeleteResult;
 ```
+
+## クラスとインスタンス
+```php
+<?php
+class Member{
+    // プロパティ(クラス内の変数)定義
+    public $name;
+    
+    // コンストラクタ定義
+    // 「__construct」と、名前が決まっている。
+    // インスタンス生成時に渡される名前を、プロパティに代入。
+    public function __construct($name){
+        $this -> name = $name;
+    }
+    
+    // メソッド定義
+    public function showInfo(){
+        echo "私の名前は" . $this -> name . "です。";
+    }
+}
+
+// インスタンス生成
+$john = new Member("john");
+$bob = new Member("bob");
+$michael = new Member("michael");
+
+// インスタンスのプロパティ要素出力
+echo "{$john -> name}です。";
+// インスタンスメソッド実行
+$bob -> showInfo();
+```

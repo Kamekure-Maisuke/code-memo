@@ -381,7 +381,7 @@ showInfo("suzuki");
 var_dump($age);
 ```
 
-## 組み込み関数
+### 組み込み関数
 ```php
 <?php
 $number = 7.8;
@@ -432,6 +432,7 @@ echo implode("@",$animals);
 print_r($animals);
 ```
 ```php
+<?php
 // 組み込み関数（HTML）
 $htmlTag = '<a href = "">Google</a>';
 // HTMLタグの実体参照への変換
@@ -443,9 +444,10 @@ $tagDeleteResult = strip_tags($htmlTag);
 echo $tagDeleteResult;
 ```
 
-## クラスとインスタンス
+### クラスとインスタンス
 ```php
 <?php
+// クラス定義
 class Member{
     // プロパティ(クラス内の変数)定義
     public $name;
@@ -472,4 +474,41 @@ $michael = new Member("michael");
 echo "{$john -> name}です。";
 // インスタンスメソッド実行
 $bob -> showInfo();
+```
+
+### 継承
+```php
+<?php
+// クラス定義
+class Member{
+    public $name;
+    
+    public function __construct($name){
+        $this -> name = $name;
+    }
+    
+    public function showInfo(){
+        echo "こんにちは" . $this -> name . "と申します。";
+    }
+}
+
+// 継承クラス定義
+class SubMember extends Member{
+    // メソッド定義（親クラスでは使えない。）
+    public function englishInfo(){
+        echo "I am " . $this -> name;
+    }
+}
+
+// 親クラスのインスタンス作成
+$bob = new Member("bob");
+
+// 継承クラスのインスタンス作成
+$john = new SubMember("john");
+
+// 親クラスのメソッド出力
+$bob -> showInfo();
+
+// 継承クラスのメソッド出力
+$john -> englishInfo();
 ```

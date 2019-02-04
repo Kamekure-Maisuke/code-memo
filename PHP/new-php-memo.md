@@ -98,7 +98,7 @@ var_dump($a);
 var_dump($b);
 var_dump($c);
 ```
-## 文字列関連
+### 文字列関連
 ```php
 <?php
 /*
@@ -218,7 +218,7 @@ switch ($color) {
 }
 ```
 
-## ループ処理
+### ループ処理
 ```php
 <?php
 // ループ処理(while)
@@ -262,7 +262,7 @@ for($i = 1; $i <= 10; $i++){
 }
 ```
 
-## 配列
+### 配列
 ```php
 <?php
 // 配列定義（PHP5.4以降）
@@ -308,7 +308,7 @@ foreach($members as $key => $value){
 }
 ```
 
-## コロン構文
+### コロン構文
 ```php
 <?php
 // コロン構文（for）
@@ -329,7 +329,7 @@ $colors = ["red","blue","yellow"];
 </ul>
 ```
 
-## 関数
+### 関数
 ```php
 <?php
 // 関数1の定義（引数なし）
@@ -363,4 +363,113 @@ myInfo("John",56);
 
 // 関数4の表示
 echo "result : ". sumCalc(78,89);
+```
+
+### ローカル変数
+```php
+<?php
+// 変数の定義
+$age = 56;
+function showInfo($name){
+    // ローカル変数の定義
+    $age = 45;
+    echo "name : $name\nage : $age";
+}
+// $age = 45
+showInfo("suzuki");
+// $age = 56
+var_dump($age);
+```
+
+## 組み込み関数
+```php
+<?php
+$number = 7.8;
+// ＜組み込み関数（数値）＞
+// 小数点切り上げ
+echo ceil($number);
+// 小数点切り捨て
+echo floor($number);
+// 四捨五入
+echo round($number);
+// 乱数生成
+echo rand(1, 7);
+```
+```php
+<?php
+$number = 6.78;
+$name = "suzuki";
+$animal = "dog";
+// 組み込み関数（文字列操作）
+// 文字数取得
+echo strlen($name);
+
+// 日本語を用いる際は、mbから始まる関数が多い。
+// 文字数取得
+echo mb_strlen($animal);
+
+// 文字列分割
+$fullName = "suzuki ichiro";
+// substr(文字列,開始位置,長さ)
+$lastName = substr($fullName,0,6);
+echo $lastName;
+
+// 書式指定
+// $s : string, $f : float(※.2は小数点)
+printf("%s - %s - %.2f",$name,$animal,$number);
+```
+```php
+<?php
+$animals = ["dog","cat","snake","tiger"];
+// 組み込み関数（配列）
+// 要素数取得
+echo count($animals);
+
+// 特定文字列で連結(例では@でつなぐ。)
+echo implode("@",$animals);
+
+// 配列の構造出力
+print_r($animals);
+```
+```php
+// 組み込み関数（HTML）
+$htmlTag = '<a href = "">Google</a>';
+// HTMLタグの実体参照への変換
+$disabledResult = htmlspecialchars($htmlTag, ENT_QUOTES);
+echo $disabledResult;
+
+// HTMLタグの取り除き
+$tagDeleteResult = strip_tags($htmlTag);
+echo $tagDeleteResult;
+```
+
+## クラスとインスタンス
+```php
+<?php
+class Member{
+    // プロパティ(クラス内の変数)定義
+    public $name;
+    
+    // コンストラクタ定義
+    // 「__construct」と、名前が決まっている。
+    // インスタンス生成時に渡される名前を、プロパティに代入。
+    public function __construct($name){
+        $this -> name = $name;
+    }
+    
+    // メソッド定義
+    public function showInfo(){
+        echo "私の名前は" . $this -> name . "です。";
+    }
+}
+
+// インスタンス生成
+$john = new Member("john");
+$bob = new Member("bob");
+$michael = new Member("michael");
+
+// インスタンスのプロパティ要素出力
+echo "{$john -> name}です。";
+// インスタンスメソッド実行
+$bob -> showInfo();
 ```

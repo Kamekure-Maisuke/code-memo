@@ -98,7 +98,7 @@ var_dump($a);
 var_dump($b);
 var_dump($c);
 ```
-## 文字列関連
+### 文字列関連
 ```php
 <?php
 /*
@@ -218,7 +218,7 @@ switch ($color) {
 }
 ```
 
-## ループ処理
+### ループ処理
 ```php
 <?php
 // ループ処理(while)
@@ -262,7 +262,7 @@ for($i = 1; $i <= 10; $i++){
 }
 ```
 
-## 配列
+### 配列
 ```php
 <?php
 // 配列定義（PHP5.4以降）
@@ -308,7 +308,7 @@ foreach($members as $key => $value){
 }
 ```
 
-## コロン構文
+### コロン構文
 ```php
 <?php
 // コロン構文（for）
@@ -329,7 +329,7 @@ $colors = ["red","blue","yellow"];
 </ul>
 ```
 
-## 関数
+### 関数
 ```php
 <?php
 // 関数1の定義（引数なし）
@@ -363,4 +363,20 @@ myInfo("John",56);
 
 // 関数4の表示
 echo "result : ". sumCalc(78,89);
+```
+
+### ローカル変数
+```php
+<?php
+// 変数の定義
+$age = 56;
+function showInfo($name){
+    // ローカル変数の定義
+    $age = 45;
+    echo "name : $name\nage : $age";
+}
+// $age = 45
+showInfo("suzuki");
+// $age = 56
+var_dump($age);
 ```

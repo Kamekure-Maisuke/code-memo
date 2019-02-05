@@ -523,3 +523,42 @@ privvate : 同じクラス内でのみアクセス可能。継承クラスから
 ※getter,setterメソッドを作成る。
 →プロパティはprivate、それの取得や変更をgetterやsetterで、というパターンが多い。
 ```
+
+## staticキーワード
+```php
+<?php
+class Member{
+    public $name;
+    
+    // static変数定義（例として、インスタンス計測用変数）
+    public static $count;
+    
+    public function __construct($name){
+        $this->name  = $name;
+        
+        // count変数をインクリメント（クラスのメソッド内での使用は、selfを用いる。）
+        self::$count++;
+    }
+    
+    // static関数定義（インスタンス未作成でも、実行可能。）
+    public static function firstGreeting(){
+        echo "ようこそ。いらっしゃいませ。\n";
+    }
+    
+    public function sayHello(){
+        echo "\nHello " . $this->name;
+    }
+}
+
+// static関数出力
+Member::firstGreeting();
+
+$bob = new Member("bob");
+$bob = new Member("bob");
+$bob = new Member("bob");
+$bob = new Member("bob");
+$bob = new Member("bob");
+
+// static変数（count）の出力
+echo "インスタンス数 : " . Member::$count;
+```

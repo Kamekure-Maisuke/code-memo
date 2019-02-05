@@ -606,3 +606,48 @@ class User implements sayHello,showInfo {
     }
 }
 ```
+
+### 外部ファイルの読み込み
+「index.php」
+```php
+<?php
+// ファイル読み込み方法（下記）,onceがついている方は、PHPファイルチェックをしてくれる。（読み込み済みファイルは読み込まずスキップ。）
+// 1. require(エラー時は処理終了、fatal error) 2. require_once
+// 3. include（エラー時は、処理続行 warning） 4. include_once
+
+require "Member.class.php";
+
+$bob = new Member("bob");
+$bob->showInfo();
+```
+「Member.class.php」
+```php
+<?php
+class Member {
+    public $name;
+
+    public function __construct($name) {
+        $this->name = $name;
+    }
+
+    public function showInfo(){
+        echo "私の名前は、{$this->name}です。";
+    }
+}
+```
+別の読み込み方法(Member.class.phpを読み込む)  
+「index.php」
+```php
+<?php
+// クラスファイル読み込み（下記）
+// 1. autoload
+
+// spl_autoload_registerを使用。
+// クラスが出てきて、それが未定義だった時に、自動的に実行される仕組み。
+spl_autoload_register(function($class) {
+    require $class . ".class.php";
+});
+
+$bob = new Member("bob");
+$bob->sayHello();
+```

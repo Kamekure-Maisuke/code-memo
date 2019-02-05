@@ -512,3 +512,179 @@ $bob -> showInfo();
 // 継承クラスのメソッド出力
 $john -> englishInfo();
 ```
+
+### アクセス修飾子
+```
+public : どこからでもアクセス可能
+protected : クラス自身と継承クラスからのみ、アクセス可能。継承は可能。
+privvate : 同じクラス内でのみアクセス可能。継承クラスからもアクセス不可能。
+
+※基本的に、まずprivateにできないかを考える。
+※getter,setterメソッドを作成る。
+→プロパティはprivate、それの取得や変更をgetterやsetterで、というパターンが多い。
+```
+
+### staticキーワード
+```php
+<?php
+class Member{
+    public $name;
+    
+    // static変数定義（例として、インスタンス計測用変数）
+    public static $count;
+    
+    public function __construct($name){
+        $this->name  = $name;
+        
+        // count変数をインクリメント（クラスのメソッド内での使用は、selfを用いる。）
+        self::$count++;
+    }
+    
+    // static関数定義（インスタンス未作成でも、実行可能。）
+    public static function firstGreeting(){
+        echo "ようこそ。いらっしゃいませ。\n";
+    }
+    
+    public function sayHello(){
+        echo "\nHello " . $this->name;
+    }
+}
+
+// static関数出力
+Member::firstGreeting();
+
+$bob = new Member("bob");
+$bob = new Member("bob");
+$bob = new Member("bob");
+$bob = new Member("bob");
+$bob = new Member("bob");
+
+// static変数（count）の出力
+echo "インスタンス数 : " . Member::$count;
+```
+
+### 抽象クラス
+```php
+<?php
+// 抽象クラスの定義
+// 特徴・・・1. 自身をインスタンス化することはできない。2. 他のクラスで継承してもらうことを前提としている。
+abstract class BaseMember {
+    public $name;
+    // 抽象メソッド定義（必ず実装されなければいけない。）
+    abstract public function showInfo();
+}
+
+class Member extends BaseMember {
+    public function showInfo() {
+        echo "こんにちは。";
+    }
+}
+```
+
+### インターフェース
+```php
+<?php
+
+// インターフェースの定義（このクラスではこのメソッドを実装してください的な、仕組みみたいなもの。）
+// 特徴・・・1. メソッドのアクセス権は、必ずpublic 2. 実装の中身は書かない。
+
+interface sayHello {
+    public function sayHello();
+}
+interface showInfo {
+    public function showInfo();
+}
+
+// クラス定義（interface使用は、implementsと書く。）
+// interfaceはカンマ区切りで、複数指定してよい。（抽象クラスの継承は、１つまで。）
+class User implements sayHello,showInfo {
+    public function sayHello(){
+        echo "こんにちは"
+    }
+    public function showInfo(){
+        echo "私は～～です。";
+    }
+}
+```
+
+### 外部ファイルの読み込み
+「index.php」
+```php
+<?php
+// ファイル読み込み方法（下記）,onceがついている方は、PHPファイルチェックをしてくれる。（読み込み済みファイルは読み込まずスキップ。）
+// 1. require(エラー時は処理終了、fatal error) 2. require_once
+// 3. include（エラー時は、処理続行 warning） 4. include_once
+
+require "Member.class.php";
+
+$bob = new Member("bob");
+$bob->showInfo();
+```
+「Member.class.php」
+```php
+<?php
+class Member {
+    public $name;
+
+    public function __construct($name) {
+        $this->name = $name;
+    }
+
+    public function showInfo(){
+        echo "私の名前は、{$this->name}です。";
+    }
+}
+```
+別の読み込み方法(Member.class.phpを読み込む)  
+「index.php」
+```php
+<?php
+// クラスファイル読み込み（下記）
+// 1. autoload
+
+// spl_autoload_registerを使用。
+// クラスが出てきて、それが未定義だった時に、自動的に実行される仕組み。
+spl_autoload_register(function($class) {
+    require $class . ".class.php";
+});
+
+$bob = new Member("bob");
+$bob->sayHello();
+```
+
+### 名前空間
+「index.php」
+```php
+<?php
+require "Member.class.php";
+
+// 名前空間の別名指定。（階層が長くなってくる場合が多いから。）
+// use 名前空間名 as 別名;
+// 階層名の末尾を使いたければ、「use OonoProject\Lib」だけでも書ける。
+
+use OonoProject\Lib as Lib;
+
+// 名前空間でクラス指定
+$bob = new Lib\Member("bob");
+$bob->sayHello();
+```
+「Member.class.php」
+```php
+<?php
+// 名前空間・・・他の人が作った作ったファイルを読み込んだ時の、クラス名のかぶりを防ぐ。
+// 名前空間の記述は、ファイルの最初に書く。
+// namespace 名前（他の人と被らないような名前） \階層名（関係）
+namespace OonoProject\Lib;
+
+class Member{
+    public $name;
+
+    public function __construct($name) {
+        $this->name = $name;
+    }
+
+    public function sayHello(){
+        echo "Hello {$this->name}.";
+    }
+}
+```

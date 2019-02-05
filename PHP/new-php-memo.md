@@ -688,3 +688,24 @@ class Member{
     }
 }
 ```
+
+### 例外処理
+```php
+<?php
+
+// 除算結果表示メソッド定義
+function divisionResult($first,$second) {
+    // 指定処理を例外処理にいれる。
+    try{
+        // 例外時の処理（例では、０が引数で渡されたとき。）
+        if($second === 0) {
+            throw new Exception("0で割り切れないよ(#^^#)");
+        }
+        echo "結果 : " . ($first / $second);
+    }catch(Exception $e){
+        // 捕まえた例外がcatchでe引数に入ってくる。
+        echo $e->getMessage();
+    }
+}
+divisionResult(9,0);
+```

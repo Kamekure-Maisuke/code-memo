@@ -524,7 +524,7 @@ privvate : 同じクラス内でのみアクセス可能。継承クラスから
 →プロパティはprivate、それの取得や変更をgetterやsetterで、というパターンが多い。
 ```
 
-## staticキーワード
+### staticキーワード
 ```php
 <?php
 class Member{
@@ -561,4 +561,22 @@ $bob = new Member("bob");
 
 // static変数（count）の出力
 echo "インスタンス数 : " . Member::$count;
+```
+
+### 抽象クラス
+```php
+<?php
+// 抽象クラスの定義
+// 特徴・・・1. 自身をインスタンス化することはできない。2. 他のクラスで継承してもらうことを前提としている。
+abstract class BaseMember {
+    public $name;
+    // 抽象メソッド定義（必ず実装されなければいけない。）
+    abstract public function showInfo();
+}
+
+class Member extends BaseMember {
+    public function showInfo() {
+        echo "こんにちは。";
+    }
+}
 ```

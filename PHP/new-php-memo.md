@@ -580,3 +580,29 @@ class Member extends BaseMember {
     }
 }
 ```
+
+### インターフェース
+```php
+<?php
+
+// インターフェースの定義（このクラスではこのメソッドを実装してください的な、仕組みみたいなもの。）
+// 特徴・・・1. メソッドのアクセス権は、必ずpublic 2. 実装の中身は書かない。
+
+interface sayHello {
+    public function sayHello();
+}
+interface showInfo {
+    public function showInfo();
+}
+
+// クラス定義（interface使用は、implementsと書く。）
+// interfaceはカンマ区切りで、複数指定してよい。（抽象クラスの継承は、１つまで。）
+class User implements sayHello,showInfo {
+    public function sayHello(){
+        echo "こんにちは"
+    }
+    public function showInfo(){
+        echo "私は～～です。";
+    }
+}
+```

@@ -651,3 +651,41 @@ spl_autoload_register(function($class) {
 $bob = new Member("bob");
 $bob->sayHello();
 ```
+
+### 名前空間
+「index.php」
+```php
+<?php
+require "Member.class.php";
+
+// 名前空間の別名指定。（階層が長くなってくる場合が多いから。）
+// use 名前空間名 as 別名;
+// 階層名の末尾を使いたければ、「use OonoProject\Lib」だけでも書ける。
+
+use OonoProject\Lib as Lib;
+
+// 名前空間でクラス指定
+$bob = new Lib\Member("bob");
+$bob->sayHello();
+```
+「Member.class.php」
+```php
+<?php
+<?php
+// 名前空間・・・他の人が作った作ったファイルを読み込んだ時の、クラス名のかぶりを防ぐ。
+// 名前空間の記述は、ファイルの最初に書く。
+// namespace 名前（他の人と被らないような名前） \階層名（関係）
+namespace OonoProject\Lib;
+
+class Member{
+    public $name;
+
+    public function __construct($name) {
+        $this->name = $name;
+    }
+
+    public function sayHello(){
+        echo "Hello {$this->name}.";
+    }
+}
+```

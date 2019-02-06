@@ -709,3 +709,41 @@ function divisionResult($first,$second) {
 }
 divisionResult(9,0);
 ```
+
+### フォームからのデータ処理
+```php
+<?php
+
+$username = '';
+
+// 渡ってくる値の条件分岐
+// 「$_SERVER['REQUEST_METHOD'] === 'POST'」で、投稿されたことを示す。（覚える。）
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $username = $_POST['username'];
+    $err = false;
+
+    // 8文字より多ければ、errをtrueとする。
+    if(strlen($username) > 8){
+        $err = true;
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>文字数チェック</title>
+</head>
+<body>
+    <!-- POST形式で値が渡ってくる。actionが空欄のため、このファイルに飛んでくる。 -->
+    <form action="" method="post">
+        <!-- 「htmlspecialchars($username, ENT_QUOTES, 'UTF-8')」で、悪意ある入力をエスケープ。 -->
+        <input type="text" name="username" placeholder="user name" 
+        value = "<?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?>">
+        <input type="submit" value="確認">
+        <?php if($err){ echo "文字数が違うよ。"; } ?>
+    </form>
+</body>
+</html>
+```

@@ -747,3 +747,23 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 </body>
 </html>
 ```
+
+### Cookie
+```php
+<?php
+
+// Cookie・・・アクセスしてきたユーザーのブラウザにデータをセットできる。
+
+// ブラウザに値保存。キーと値で設定。
+// 有効期限は、ブラウザを閉じるまで。
+setcookie("username", "suzuki");
+
+// time()で有効期限設定。例では、1時間後に削除設定。
+setcookie("userhobby", "野球", time()+60*60);
+
+// Cookie削除方法。有効期限を過去のものにする。
+// setcookie("userhobby", "野球", time()-60*60);
+
+// 保存後、キーで保存した値を表示
+echo $_COOKIE['username'];
+```

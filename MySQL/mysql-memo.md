@@ -70,7 +70,7 @@ create table テーブル名(
 
     -- 可変長文字列（20バイト）のフィールド定義
     name varchar(20),
-    
+
     -- 浮動小数型のフィールド定義
     score float
 );
@@ -113,4 +113,39 @@ create table テーブル名(
     name varchar(20),
     score float
 );
+```
+
+### レコード挿入
+```sql
+-- テーブル定義
+create table テーブル名( id int unsigned, name varchar(20));
+
+-- レコード挿入処理
+-- insert into テーブル名(フィールド名,フィールド名2) values (挿入値, 挿入値2);のように書く。
+-- ※文字列は、シングルクォーテーションで囲む。
+insert into テーブル名(id,name) values (1, 'suzuki');
+insert into テーブル名(id,name) values (2, 'tanaka');
+insert into テーブル名(id,name) values (3, 'satou');
+
+-- データを挿入したくない時。
+insert into テーブル名(id,name) values (4, null);
+
+-- 全てのデータ確認。
+select * from テーブル名;
+```
+別記法
+```sql
+-- テーブル定義
+create table テーブル名(id int unsigned,name varchar(20));
+
+-- レコード挿入処理
+-- 一つのinsertにまとめることもできる。
+insert into テーブル名(id,name) values
+    (1, 'suzuki'),
+    (2, 'tanaka'),
+    (3, 'satou'),
+    (3, null);
+
+-- 全てのデータの確認
+select * from テーブル名;
 ```

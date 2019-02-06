@@ -767,3 +767,23 @@ setcookie("userhobby", "野球", time()+60*60);
 // 保存後、キーで保存した値を表示
 echo $_COOKIE['username'];
 ```
+
+### session
+```php
+<?php
+
+// session・・・サーバー側にデータを保存する仕組み。※cookieはユーザー側。
+// cookieとの違い・・・1. 大きなデータ保存。2. 改ざんされない。3. 中身が見れない。
+
+// session開始処理。（※必ず書く。）
+session_start();
+
+// session定義・・・cookie同様に、キーと値で定義。
+// $_SESSION['username'] = "suzuki";
+
+//サーバーで保存した値出力。
+// echo $_SESSION['username'];
+
+// session削除方法。
+unset($_SESSION['username']);
+```

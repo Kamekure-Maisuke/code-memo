@@ -57,3 +57,60 @@ select database();
 ```sql
 select user();
 ```
+
+### テーブル作成
+```sql
+-- テーブル定義
+create table テーブル名(
+    -- 「フィールド名 データ型 」でフィールド定義。
+    -- 下記、例。
+
+    -- 正の整数型のフィールド定義
+    id int unsigned,
+
+    -- 可変長文字列（20バイト）のフィールド定義
+    name varchar(20),
+    
+    -- 浮動小数型のフィールド定義
+    score float
+);
+```
+※データ型に関して。
+```sql
+/*
+＜データ型＞
+数値 : 
+- int・・・整数
+- float・・・浮動小数（単精度）。
+- double・・・浮動小数（倍精度）。
+- tinyint・・・小さい整数。
+- int unsigned・・・正の整数のみ。これにより、正の整数は2倍の大きさまで使用可能。
+- zerofill・・・数値の前方をゼロ埋めする。例：78 -> 078 になる。
+
+文字列 : 
+- char・・・固定長の文字列。「char(文字数)」で指定。
+- varchar・・・可変長の文字列。「char(バイト数)」で指定。
+- text・・・長い文字列。255文字以下は、varcharを使う。
+
+日時 : 
+- date・・・日付。形式は、'YYYY-MM-DD'
+- time・・・時刻。形式は、'HH:MM:SS'
+- datetime・・・日付時刻。形式は、'YYYY-MM-DD HH:MM:SS'
+
+論理 : 
+- boolean・・・正誤判断。tinyint(1)で判断しているため、下記の数値で判断。
+    - true・・・1
+    - false・・・0
+
+*/
+```
+
+```sql
+-- 下記の記述で、同じテーブルがあるときに、削除してまっさらな状態からやり直す。
+drop table if exists テーブル名;
+create table テーブル名(
+    id int unsigned,
+    name varchar(20),
+    score float
+);
+```

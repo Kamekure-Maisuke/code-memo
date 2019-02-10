@@ -1,15 +1,19 @@
 # Rubyメモ
-## ・概要
+## 目次
+## 概要
+
 1. オブジェクト指向プログラミング言語
 2. 開発者は、まつもとゆきひろ氏
 3. フレームワークの代表、Ruby on Rails
 ### ※便利なコマンド
+
 1. irb  
 →コードを試したい時。
 2. ri  
 →処理のドキュメントを知りたいとき。
 ## 基礎文法
 ### はじめての表示
+
 ```ruby
 # 一行コメント
 
@@ -24,7 +28,9 @@ puts "World" # 改行あり
 puts 123 # 改行あり(数値の場合は、ダブルクォーテーションは不要)
 p "Hello World" # デバッグ用（構造をわかりやすく表示してくれる）
 ```
+
 ### 変数・定数
+
 ```ruby
 # 変数
 # 変数名の命名ルール
@@ -49,7 +55,9 @@ $msg → グローバル変数
 MSG → 定数
 =end
 ```
+
 ### 数値
+
 ```ruby
 # 数値
 p 123.class # 値（オブジェクト）の型を取得
@@ -68,7 +76,9 @@ puts 23.55.round #四捨五入
 puts 23.52.floor # 小数点切り捨て
 puts 23.12.ceil #小数点切り上げ
 ```
+
 ### 文字列
+
 ```ruby
 # 文字列オブジェクト
 # 特殊文字　改行
@@ -113,7 +123,9 @@ name = "hello"
 puts name.empty? #変数nameが空かどうか確認（empty）　空ではないので、falseを表示
 puts name.include?("h") # 変数nameに特定の文字列が入っているか確認（include） 今回はtrueを表示
 ```
+
 ### 配列
+
 ```ruby
 # 配列オブジェクト
 names = ["oono","matuoka","taguchi"]
@@ -129,7 +141,9 @@ puts names[0..3]
 puts names.size # 配列の要素数取得
 puts names.sort # 配列の並び順変更（逆）
 ```
+
 ### ハッシュ
+
 ```ruby
 # ハッシュ（キーと値）
 # scores = {"name" => "oono","age" => "89"} #通常のハッシュ宣言
@@ -139,7 +153,9 @@ puts scores.size # ハッシュの要素数取得
 puts scores.keys # ハッシュのキー一覧を取得
 puts scores.values # ハッシュの値一覧取得
 ```
+
 ### オブジェクト変換
+
 ```ruby
 # オブジェクト変換（値）
 a = 67
@@ -156,7 +172,9 @@ p scores.to_a # ハッシュを配列へ変換　配列の中に変換した配�
 p scores.to_a.to_h # 配列変換したものをハッシュへ戻す
 # ※出力：{:oono=>67, :satou=>78, :tanaka=>89}
 ```
+
 ### %記法
+
 ```ruby
 # %記法（標準出力）
 puts "He\"llo" # 通常の記法（文字列出力）
@@ -166,7 +184,9 @@ puts %(He"llo) # %記法を用いたやり方。%の場合は、\は不要
 p ["red","blue"] # 通常の記法
 p %W(red blue) # %記法を用いたやり方。ダブルクォーテーションは不要。
 ```
+
 ### 条件分岐（if文）
+
 ```ruby
 # 条件分岐（if文）
 age = gets.to_i # 値をユーザーから受け取る。（受け取り値は、文字列扱いのため、数値へ変換）
@@ -178,7 +198,9 @@ else
   puts "適切な年齢ではありません。"
 end # rubyではendで終わらす。
 ```
+
 ### 条件分岐（case文）
+
 ```ruby
 # 条件分岐（case文）
 name = gets.chomp # ユーザーから値を受け取る。getsは改行コードが含まれているため、chompで取り除く。
@@ -191,7 +213,9 @@ else
   puts "hun!"
 end
 ```
+
 ### 条件分岐（while文）
+
 ```ruby
 # 条件分岐（while文）
 i = 0 # ループ変数の初期化
@@ -200,7 +224,9 @@ while i <= 10 do # rubyではdoをつける。
   i += 1 # ループ変数を更新させる。Javaのように「++」は、rubyにはない。
 end
 ```
+
 ### 条件分岐（timesメソッド）
+
 ```ruby
 # 繰り返し処理（timesメソッド）
 5.times do # 回数が確定しているときは、timesメソッドも使える。
@@ -213,7 +239,9 @@ end
 
 10.times{ puts "oono" } # 処理が少ない場合、「do~end」は波括弧で省略可能。一行で書ける。
 ```
+
 ### 繰り返し処理（for文）
+
 ```ruby
 # 繰り返し処理（for文）
 for i in 1..5 do # シンプルなfor文の記法(1~5を表示)
@@ -228,7 +256,9 @@ for name,age in {tanaka: 89,suzuki: 37,miyamoto: 10} do # ハッシュを取り�
   puts "#{name} : #{age}歳です。"
 end
 ```
+
 ### 繰り返し処理（each文）`※重要`
+
 ```ruby
 # 繰り返し処理（each）
 #forの代わりにeachを使うことができる。（上記のような処理を代替できる。）
@@ -244,7 +274,9 @@ end
   puts "#{name} : #{age}"
 end
 ```
+
 ### 繰り返し処理（loop break next）
+
 ```ruby
 # 繰り返し処理（loop break next）
 # i = 0
@@ -267,7 +299,9 @@ end
   puts i
 end
 ```
+
 ### メソッド
+
 ```ruby
 # メソッド定義
 def sayHello # 引数なしバージョン
@@ -285,7 +319,9 @@ def num(x,y) # 引数あり（複数）バージョン
 end
 puts %(計算結果は#{num(8,7)}です。)
 ```
+
 ### クラス
+
 ```ruby
 # クラス
 class Animal
@@ -301,7 +337,9 @@ cat = Animal.new("猫") # 初期値定義（猫）
 dog.sayInfo
 cat.sayInfo
 ```
+
 ### アクセサ
+
 ```ruby
 # クラス
 class User
@@ -324,7 +362,9 @@ tom.name = "tom Jr."
 tom.age = 34
 tom.sayHi # レシーバー
 ```
+
 ### クラス変数・クラスメソッド
+
 ```ruby
 # クラスメソッド・クラス変数
 class User
@@ -352,7 +392,9 @@ john.sayDetail # インスタンスメソッド呼び出し。
 oono.sayDetail # インスタンスメソッド呼び出し。
 User.classInfo # クラスメソッド呼び出し。
 ```
+
 ### クラスの継承
+
 ```ruby
 # クラスの継承
 class User
@@ -391,7 +433,9 @@ bob.sayDetail
 User.classInfo # Userクラスメソッド呼び出し
 AdminUser.classInfo # AdminUserクラスメソッド呼び出し
 ```
+
 ### アクセス権
+
 ```ruby
 # アクセス権
 =begin
@@ -418,7 +462,9 @@ end
 User.new.sayHello
 AdminUser.new.sayHello
 ```
+
 ### モジュール（名前空間）
+
 ```ruby
 # モジュール
 # 名前空間　　・・・・　メソッド名や定数がかぶらないように、自分だけの空間を作る。
@@ -432,7 +478,9 @@ end
 Movie.sayHello # モジュールメソッド呼び出し。
 puts Movie::VERSION # 定数取得、表示
 ```
+
 ### モジュール（名前空間：クラス使用例）
+
 ```ruby
 class User
     attr_accessor :number
@@ -461,7 +509,9 @@ end
 tom = User.new(89)
 tom.sayInfo
 ```
+
 ### モジュール（ミックスイン）
+
 ```ruby
 # モジュール
 # ミックスイン　・・・継承関係にないクラスや関連性のないクラスに、いちいち入れなくて済む。
@@ -480,7 +530,9 @@ end
 Hero.new.info # モジュール内のメソッド呼び出し。
 Monster.new.info # モジュール内のメソッド呼び出し。
 ```
+
 ### 例外
+
 ```ruby
 # 例外
 puts "数値を入力"
@@ -494,7 +546,9 @@ ensure # エラーにかかわらず、実行したい処理
     puts "--END--"
 end
 ```
+
 ### 例外（自作）
+
 ```ruby
 # 例外（自作例外）
 class MyError < StandardError; end # 例外クラスを作成。（StandardErrorクラスを継承）
@@ -536,8 +590,10 @@ end
     end
 end
 ```
+
 # 練習問題用メモ
 ## 標準入力（一行、複数行）
+
 ```ruby
 # 整数の入力
 a = gets.to_i

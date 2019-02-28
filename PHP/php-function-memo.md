@@ -114,23 +114,76 @@
 
 #### printf(), sprintf()
 
-- 文字列をフォーマットに当てはめて出力する。
+- 文字列をフォーマット指定で出力
 
-- printf() は出力を行い、sprintf() は結果を文字列として返す。
+- printf()は配列として出力を行い、sprintf() は結果を文字列として返す。
 
 - [公式マニュアル](http://php.net/manual/ja/function.printf.php)
 
 - [公式マニュアル](http://php.net/manual/ja/function.sprintf.php)
 
+```php
+<?php
+// printf(フォーマット文字列,値,値);
+
+printf('今日は%d月%d日です。',date('m'),date('d'));
+```
+
+```php
+<?php
+// sprintf(フォーマット文字列,値,値);
+
+$number = sprintf('%04d',30);
+echo $number;
+```
+
 #### preg_match(),preg_match_all()
 
 - 正規表現による一致・検索。
+
+- パターンに一致すれば「1」、一致しなければ「2」を返す。
 
 - preg_match_all() はパターンにマッチしたすべての値を変数に格納する。
 
 - [公式マニュアル](http://php.net/manual/ja/function.preg-match.php)
 
 - [公式マニュアル](http://php.net/manual/ja/function.preg-match-all.php)
+
+```php
+<?php
+// 返り値 = preg_match(/正規表現パターン/,検索対象の文字列,[配列],[動作フラグ],[検索開始位置])
+
+  if (preg_match('/経済/', '世界経済情勢')) {
+    echo 'ある';
+  } else {
+    echo 'ない';
+  }
+```
+
+```php
+<?php
+// 「PREG_OFFSET_CAPTURE」を指定して、一致文字列の登場位置（オフセット）をバイト数で取得
+// ※半角は1バイト、全角は2バイト
+
+  if (preg_match('/経済/', '世界経済情勢',$data,PREG_OFFSET_CAPTURE)) {
+    echo 'ある';
+  } else {
+    echo 'ない';
+  }
+  print_r($data)
+```
+
+```php
+<?php
+// 「PREG_OFFSET_CAPTURE」を指定して、一致文字列の登場位置（オフセット）をバイト数で取得
+
+  if (preg_match_all('/経済/', '世界経済情勢における、日本の経済状況を、日本経済大学教授の経済学者が解説。',$data,PREG_OFFSET_CAPTURE)) {
+    echo 'ある';
+  } else {
+    echo 'ない';
+  }
+  print_r($data)
+```
 
 #### preg_replace()
 

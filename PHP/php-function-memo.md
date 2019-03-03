@@ -753,31 +753,109 @@ echo ceil(-3.14);
 - [公式マニュアル](http://php.net/manual/ja/function.array-key-exists.php)
 
 ```php
-<?php
+// array_key_exists( 'キー', $配列名 )
 
-array_key_exists( 'キー', $配列名 )
+$search_array = array('number' => 1, 'name' => '佐藤');
+if (array_key_exists('neme', $search_array)) {
+    echo 'ある';
+}else{
+    echo 'ない';
+}
+
+// 実行結果
+
+// ない
 ```
 
 #### array_slice()
 
-- 配列の何番目からいくつ取り出すかを指定して取得する。
+- 配列から連続した要素を取得する。
 
 - [公式マニュアル](http://php.net/manual/ja/function.array-slice.php)
 
 ```php
+// array_slice(取得元配列,開始位置,要素数)
 
+$name = array('佐藤','田中','鈴木','上野','高橋','斉藤','中野');
+$result = array_slice($name,2,3);
+foreach($result as $key => $value){
+  echo "$key : $value\n";
+}
+
+// 実行結果
+
+/*
+0 : 鈴木
+1 : 上野
+2 : 高橋
+*/
 ```
 
 #### array_merge(), array_merge_recursive()
 
-- 配列同士を結合する。array_merge_recursive() は再帰的に結合するため多次元配列でも使える。
+- 配列同士を一つの配列に結合する。
+
+- array_merge_recursive() は同じ文字列のキーを持つ要素がある場合、上書きされないため、多次元配列としても利用。
 
 - [公式マニュアル](http://php.net/manual/ja/function.array-merge.php)
 
 - [公式マニュアル](http://php.net/manual/ja/function.array-merge-recursive.php)
 
 ```php
+// array_merge(配列1,配列2,配列3)
 
+<?php
+$data = array('name' => '佐藤', '田中', '大橋');
+$info = array("田中", "大橋", "name" => "鈴木", "age" => 56, '高橋');
+$result = array_merge($data, $info);
+print_r($result);
+?>
+
+// 実行結果
+
+/*
+Array
+(
+    [name] => 鈴木
+    [0] => 田中
+    [1] => 大橋
+    [2] => 田中
+    [3] => 大橋
+    [age] => 56
+    [4] => 高橋
+)
+*/
+```
+
+```php
+// array_merge_recursive(配列1,配列2,配列3)
+
+<?php
+$data = array("name" => array("nickname" => "さとっち"), '鈴木');
+$info = array('上野', "name" => array("nickname" => "たなくん", "高橋"));
+$result = array_merge_recursive($data, $info);
+print_r($result);
+
+// 実行結果
+
+/*
+Array
+(
+    [name] => Array
+        (
+            [nickname] => Array
+                (
+                    [0] => さとっち
+                    [1] => たなくん
+                )
+
+            [0] => 高橋
+        )
+
+    [0] => 鈴木
+    [1] => 上野
+)
+*/
 ```
 
 #### in_array()
@@ -789,7 +867,18 @@ array_key_exists( 'キー', $配列名 )
 - [公式マニュアル](http://php.net/manual/ja/function.in-array.php)
 
 ```php
-in_array('キー', $配列, true)
+// in_array('キー', $配列, true)
+
+$numbers = [0, 1, 2, 3, 4, 5];
+var_dump(in_array(3,$numbers, true));
+var_dump(in_array('佐藤', $numbers, true));
+
+// 実行結果
+
+/*
+bool(true)
+bool(false)
+*/
 ```
 
 #### shuffle()
@@ -799,19 +888,75 @@ in_array('キー', $配列, true)
 - [公式マニュアル](http://php.net/manual/ja/function.shuffle.php)
 
 ```php
+// shuffle(配列)
 
+$numbers = [1,3,5,7,9];
+shuffle($numbers);
+foreach ($numbers as $number) {
+    echo "$number\n";
+}
+
+// 実行結果
+
+/*
+7
+3
+9
+5
+1
+*/
 ```
 
 #### sort(), rsort()
 
-- 配列を昇順、降順でソート（並び替え）する。キーは新しく割り振られるため、もともとのキーは削除される。
+- 配列を昇順、降順でソート（並び替え）する。
+
+- 動作オプション指定で、より厳密な並び順が指定できる。
 
 - [公式マニュアル](http://php.net/manual/ja/function.sort.php)
 
 - [公式マニュアル](http://php.net/manual/ja/function.rsort.php)
 
 ```php
+// sort(配列,動作オプション)
 
+$numbers = array(4,3,2,8,34,6463,353,653);
+sort($numbers);
+foreach($numbers as $key => $value){
+    echo "$key : $value\n";
+}
+
+// 実行結果
+
+/*
+0 : 2
+1 : 3
+2 : 4
+3 : 8
+4 : 34
+5 : 353
+6 : 653
+7 : 6463
+*/
+```
+
+```php
+// 動作オプション指定の場合。
+
+$names = array("a1", "A6", "a2", "B1");
+sort($names, SORT_NATURAL | SORT_FLAG_CASE);
+foreach ($names as $key => $value) {
+    echo "$key : $value\n";
+}
+
+// 実行結果
+
+/*
+0 : a1
+1 : a2
+2 : A6
+3 : B1
+*/
 ```
 
 #### asort(), arsort()
@@ -823,24 +968,102 @@ in_array('キー', $配列, true)
 - [公式マニュアル](http://php.net/manual/ja/function.arsort.php)
 
 ```php
+// asort(連想配列,動作オプション)
 
+$data = ['name' => 'john','age' => 78,'hobby' => 'anime','job' => 'engineer'];
+asort($data);
+foreach($data as $key => $value){
+    echo "$key : $value\n";
+}
+
+// 実行結果
+
+/*
+hobby : anime
+job : engineer
+name : john
+age : 78
+*/
+```
+
+```php
+// 動作オプション指定
+
+$data = ['name' => 'john','age' => 78,'hobby' => 'anime','job' => 'engineer'];
+asort($data,SORT_LOCALE_STRING);
+foreach($data as $key => $value){
+    echo "$key : $value\n";
+}
+
+// 実行結果
+
+/*
+age : 78
+hobby : anime
+job : engineer
+name : john
+*/
 ```
 
 #### ksort(), krsort()
 
 - 配列のキーをもとに昇順、降順でソートする。
 
+- 動作オプション指定可能
+
 - [公式マニュアル](http://php.net/manual/ja/function.ksort.php)
 
 - [公式マニュアル](http://php.net/manual/ja/function.krsort.php)
 
 ```php
+// ksort(連想配列,動作オプション)
 
+$data = ['name' => 'john','age' => 78,'hobby' => 'anime','job' => 'engineer'];
+ksort($data);
+foreach($data as $key => $value){
+    echo "$key : $value\n";
+}
+
+// 実行結果
+
+/*
+age : 78
+hobby : anime
+job : engineer
+name : john
+*/
+```
+
+```php
+// 動作オプション指定
+
+$data = ['name' => 'john','age' => 78,'hobby' => 'anime','job' => 'engineer'];
+ksort($data,SORT_NUMERIC);
+foreach($data as $key => $value){
+    echo "$key : $value\n";
+}
+
+// 実行結果
+
+/*
+name : john
+age : 78
+hobby : anime
+job : engineer
+*/
 ```
 
 #### usort(), uasort(), uksort()
 
-- ユーザーが定義した関数に基づいて配列をソートする。
+- ユーザー定義関数に基づき、配列をソートする。
+
+- usortは、キーも並びかわる。
+
+- uasortは、キーを変えずに並びかえる。
+
+- uksortは、キーによって並びかえる。
+
+- 動作オプション指定可能。
 
 - [公式マニュアル](http://php.net/manual/ja/function.usort.php)
 
@@ -849,7 +1072,82 @@ in_array('キー', $配列, true)
 - [公式マニュアル](http://php.net/manual/ja/function.uksort.php)
 
 ```php
+// usort(配列,定義関数)
 
+function comp($a, $b)
+{
+    return strcmp($a["name"], $b["name"]);
+}
+
+$names[0]["name"] = "tanaka";
+$names[1]["name"] = "suzuki";
+$names[2]["name"] = "ueno";
+
+usort($names, "comp");
+
+while (list($key, $value) = each($names)) {
+    echo "\$names[$key]: " . $value["name"] . "\n";
+}
+
+// 実行結果
+
+/*
+$names[0]: suzuki
+$names[1]: tanaka
+$names[2]: ueno
+*/
+```
+
+```php
+// uasort(配列,定義関数)
+
+function comp($a, $b)
+{
+    return strcmp($a["name"], $b["name"]);
+}
+
+$names[0]["name"] = "tanaka";
+$names[1]["name"] = "suzuki";
+$names[2]["name"] = "ueno";
+
+uasort($names, "comp");
+
+while (list($key, $value) = each($names)) {
+    echo "\$names[$key]: " . $value["name"] . "\n";
+}
+
+// 実行結果
+
+/*
+$names[1]: suzuki
+$names[0]: tanaka
+$names[2]: ueno
+*/
+```
+
+```php
+function comp($a, $b)
+{
+    return strcmp($a["name"], $b["name"]);
+}
+
+$names[0]["name"] = "tanaka";
+$names[1]["name"] = "suzuki";
+$names[2]["name"] = "ueno";
+
+uksort($names, "comp");
+
+while (list($key, $value) = each($names)) {
+    echo "\$names[$key]: " . $value["name"] . "\n";
+}
+
+// 実行結果
+
+/*
+$names[0]: tanaka
+$names[1]: suzuki
+$names[2]: ueno
+*/
 ```
 
 #### array_multisort()
@@ -859,7 +1157,32 @@ in_array('キー', $配列, true)
 - [公式マニュアル](http://php.net/manual/ja/function.array-multisort.php)
 
 ```php
+// array_multisort(並び変える配列,対象配列,オプション)
 
+$numbers = array(15, 343, 55, 75);
+$new_numbers = array(2, 4, 3, 7);
+array_multisort($numbers, $new_numbers);
+print_r($numbers);
+print_r($new_numbers);
+
+// 実行結果
+
+/*
+Array
+(
+    [0] => 15
+    [1] => 55
+    [2] => 75
+    [3] => 343
+)
+Array
+(
+    [0] => 2
+    [1] => 3
+    [2] => 7
+    [3] => 4
+)
+*/
 ```
 
 #### array_unique()
@@ -869,7 +1192,24 @@ in_array('キー', $配列, true)
 - [公式マニュアル](http://php.net/manual/ja/function.array-unique.php)
 
 ```php
+// array_unique(配列)
 
+$number = array(18, "17", "34", 343, 34, "38");
+$result = array_unique($number);
+print_r($result);
+
+// 実行結果
+
+/*
+Array
+(
+    [0] => 18
+    [1] => 17
+    [2] => 34
+    [3] => 343
+    [5] => 38
+)
+*/
 ```
 
 #### array_reverse()
@@ -879,7 +1219,27 @@ in_array('キー', $配列, true)
 - [公式マニュアル](http://php.net/manual/ja/function.array-reverse.php)
 
 ```php
+// array_reverse(配列)
 
+$number = array(56,64,43,3,5,25,2,52);
+$result = array_reverse($number);
+print_r($result);
+
+// 実行結果
+
+/*
+Array
+(
+    [0] => 52
+    [1] => 2
+    [2] => 25
+    [3] => 5
+    [4] => 3
+    [5] => 43
+    [6] => 64
+    [7] => 56
+)
+*/
 ```
 
 #### array_shift(), array_pop()
@@ -895,7 +1255,43 @@ in_array('キー', $配列, true)
 - [公式マニュアル](http://php.net/manual/ja/function.array-pop.php)
 
 ```php
+// array_shift(配列)
 
+$names = array('佐藤','高橋','鈴木','田中','黒川');
+$result = array_shift($names);
+print_r($names);
+
+// 実行結果
+
+/*
+Array
+(
+    [0] => 高橋
+    [1] => 鈴木
+    [2] => 田中
+    [3] => 黒川
+)
+*/
+```
+
+```php
+// array_pop(配列)
+
+$names = array('佐藤','高橋','鈴木','田中','黒川');
+$result = array_pop($names);
+print_r($names);
+
+// 実行結果
+
+/*
+Array
+(
+    [0] => 佐藤
+    [1] => 高橋
+    [2] => 鈴木
+    [3] => 田中
+)
+*/
 ```
 
 #### array_walk(), array_walk_recursive()

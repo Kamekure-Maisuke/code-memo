@@ -22,7 +22,9 @@
             - [is_int()](#is_int)
             - [is_float()](#is_float)
             - [is_numeric()](#is_numeric)
-            - [round(), floor(), ceil()](#round-floor-ceil)
+            - [round()](#round)
+            - [floor()](#floor)
+            - [ceil()](#ceil)
         - [配列](#配列)
             - [array_key_exists()](#array_key_exists)
             - [array_slice()](#array_slice)
@@ -41,9 +43,9 @@
             - [array_search()](#array_search)
             - [implode(), explode()](#implode-explode)
             - [range()](#range)
-            - [reset(), end()](#reset-end)
-            - [next(), prev()](#next-prev)
             - [current()](#current)
+            - [next(), prev()](#next-prev)
+            - [reset(), end()](#reset-end)
             - [extract()](#extract)
             - [list()](#list)
             - [is_array()](#is_array)
@@ -116,7 +118,9 @@
 
 - 文字列をフォーマット指定で出力
 
-- printf()は配列として出力を行い、sprintf() は結果を文字列として返す。
+- printf()は配列として出力を行う。
+
+- sprintf() は結果を文字列として返す。
 
 - [公式マニュアル](http://php.net/manual/ja/function.printf.php)
 
@@ -127,6 +131,9 @@
 // printf(フォーマット文字列,値,値);
 
 printf('今日は%d月%d日です。',date('m'),date('d'));
+
+// 実行結果
+// 今日は3月2日です。
 ```
 
 ```php
@@ -135,6 +142,9 @@ printf('今日は%d月%d日です。',date('m'),date('d'));
 
 $number = sprintf('%04d',30);
 echo $number;
+
+// 実行結果
+// 0030
 ```
 
 #### preg_match(),preg_match_all()
@@ -143,7 +153,7 @@ echo $number;
 
 - パターンに一致すれば「1」、一致しなければ「2」を返す。
 
-- preg_match_all() はパターンにマッチしたすべての値を変数に格納する。
+- preg_match_all() は一致したすべての値を変数に格納。
 
 - [公式マニュアル](http://php.net/manual/ja/function.preg-match.php)
 
@@ -158,6 +168,9 @@ echo $number;
   } else {
     echo 'ない';
   }
+
+// 実行結果
+// ある
 ```
 
 ```php
@@ -166,11 +179,27 @@ echo $number;
 // ※半角は1バイト、全角は2バイト
 
   if (preg_match('/経済/', '世界経済情勢',$data,PREG_OFFSET_CAPTURE)) {
-    echo 'ある';
+    echo "ある\n";
   } else {
-    echo 'ない';
+    echo "ない";
   }
   print_r($data)
+
+// 実行結果
+
+/*
+ある
+Array
+(
+    [0] => Array
+        (
+            [0] => 経済
+            [1] => 6
+        )
+
+)
+*/
+
 ```
 
 ```php
@@ -183,45 +212,182 @@ echo $number;
     echo 'ない';
   }
   print_r($data)
+
+// 実行結果
+
+/*
+ある
+Array
+(
+    [0] => Array
+        (
+            [0] => Array
+                (
+                    [0] => 経済
+                    [1] => 6
+                )
+
+            [1] => Array
+                (
+                    [0] => 経済
+                    [1] => 42
+                )
+
+            [2] => Array
+                (
+                    [0] => 経済
+                    [1] => 66
+                )
+
+            [3] => Array
+                (
+                    [0] => 経済
+                    [1] => 87
+                )
+
+        )
+
+)
+*/
 ```
 
 #### preg_replace()
 
-- 正規表現による置換。パターンにマッチした文字列を指定した文字列に置換する。
+- 正規表現によるパターンに一致した、検索または置換を行う。
 
 - [公式マニュアル](http://php.net/manual/ja/function.preg-replace.php)
 
+```php
+// preg_replace(正規表現パターン ,置換後文字列 ,置換対象文字列)
+
+$names = '佐藤 田中 鈴木 佐藤';
+$names_grep = preg_replace('/(佐藤)/', '上野', $names);
+echo $names_grep;
+
+// 実行結果
+
+// 上野 田中 鈴木 上野
+```
+
 #### preg_quote()
 
-- 正規表現構文の特殊文字の前にバックスラッシュをつけてエスケープする。
+- 正規表現特殊文字の前にバックスラッシュをつけてエスケープする。
+
+- オプション区切り文字は省略可能。「/」が一般的に使用されている。
 
 - [公式マニュアル](http://php.net/manual/ja/function.preg-quote.php)
 
+```php
+// preg_quote(文字列,オプション区切り文字)
+
+$keywords = '$URL : /で始まる。';
+$keywords = preg_quote($keywords, '/');
+echo $keywords;
+
+// 実行結果
+
+// \$URL \: \/で始まる。
+```
+
 #### str_replace(), strtr()
 
-- 文字列の置換。strtr() は複数の文字列のペアを渡して同時に置換できる。
+- 文字列の置換。
+
+- strtr() は複数の文字列のペアを渡して同時に置換できる。
+
+- 第四引数の「置換した回数」は省略可能。
 
 - [公式マニュアル](http://php.net/manual/ja/function.str-replace.php)
 
 - [公式マニュアル](http://php.net/manual/ja/function.strtr.php)
 
+```php 	
+// str_replace(検索文字列 ,置換後文字列 ,検索対象文字列,置換した回数)
+
+$names = ['佐藤', '高橋', '鈴木', '高橋', '中村'];
+$replace = str_replace('高橋', '小松', $names, $count);
+print_r($replace);
+echo '置換した回数: '.$count;
+
+// 実行結果
+
+/*
+Array
+(
+    [0] => 佐藤
+    [1] => 小松
+    [2] => 鈴木
+    [3] => 小松
+    [4] => 中村
+)
+置換回数: 2
+*/
+```
+
+```php
+// strtr(置換対象文字列, 文字列(配列))
+
+$array = array("佐藤"=>"鈴木","田中"=>"田丸","高橋"=>"高峰");
+print strtr("佐藤 田中 大川 大橋 高橋", $array);
+
+// 実行結果
+
+// 鈴木 田丸 大川 大橋 高峰
+```
+
 #### substr(), mb_substr()
 
-- 文字列の何文字目から何文字取り出すかを指定して文字列の一部分を返す。
+- 文字列を切り出す。指定文字によって、何番目から何番目までを指定可能。
 
 - [公式マニュアル](http://php.net/manual/ja/function.substr.php)
 
 - [公式マニュアル](http://php.net/manual/ja/function.mb-substr.php)
 
+```php
+// substr (文字列, 開始位置 ) 
+
+echo substr('America', 1);
+echo mb_substr('あいうえおかきくけこ', 3);
+
+// 実行結果
+
+// merica
+// かきくけこ
+```
+
 #### strtolower(), strtoupper()
 
-- strtolower() はすべてのアルファベットを小文字に変換。
+- strtolower()はアルファベットの小文字変換。
 
-- strtoupper() はすべてのアルファベットを大文字に変換する。
+- strtoupper()はアルファベットの大文字変換。
 
 - [公式マニュアル](http://php.net/manual/ja/function.strtolower.php)
 
 - [公式マニュアル](http://php.net/manual/ja/function.strtoupper.php)
+
+```php
+// strtolower(対象文字列)
+
+$name = "JOHN,Bob,michaEl";
+$result = strtolower($name);
+echo $result;
+
+// 実行結果
+
+// john,bob,michael
+```
+
+```php
+// strtoupper(対象文字列)
+
+$name = "JOhN,Bob,michaEl";
+$result = strtoupper($name);
+echo $result;
+
+// 実行結果
+
+// JOHN,BOB,MICHAEL
+```
 
 #### strlen(), mb_strlen()
 
@@ -233,9 +399,31 @@ echo $number;
 
 - [公式マニュアル](http://php.net/manual/ja/function.mb-strlen.php)
 
+```php
+// strlen(対象文字列)
+
+$name = 'Michael';
+echo strlen($message);
+
+//　実行結果
+
+// 7
+```
+
+```php
+// mb_strlen(対象文字列)
+
+$message = '私は男です';
+echo mb_strlen($message);
+
+//　実行結果
+
+// 5
+```
+
 #### strpos(), mb_strpos()
 
-- 文字列の中から指定された文字列が何文字目に存在するかを返す。
+- 指定文字列が何文字目に存在するかを返す。
 
 - 大文字小文字を区別しない場合、stripos()、mb_stripos() が用意されている。
 
@@ -243,17 +431,79 @@ echo $number;
 
 - [公式マニュアル](http://php.net/manual/ja/function.mb-strpos.php)
 
+```php
+// strpos(検索対象文字列,指定文字列)
+
+$name = 'michael';
+$findword   = 'a';
+$result = strpos($name, $findword);
+
+if ($result === false) {
+    echo "'$findword' は、'$name' の中で見つかりませんでした";
+} else {
+    echo "'$findword' が、'$name' の中で見つかりました\n";
+    echo "位置 : $result";
+}
+
+// 実行結果
+
+/*
+'a' が、'michael' の中で見つかりました
+位置 : 4
+*/
+```
+
 #### mb_convert_encoding()
 
-- 文字列を指定された文字コードに変換して返す。
+- 文字エンコーディングを変換する。
 
 - [公式マニュアル](http://php.net/manual/ja/function.mb-convert-encoding.php)
+
+```php
+// mb_convert_encoding(対象文字列,変換文字コード,対象文字コード)
+
+/* 内部文字エンコーディングからSJISへの変換 */
+$name = mb_convert_encoding($name, "SJIS");
+
+/* SJISからUTF-8に変換 */
+$name = mb_convert_encoding($name, "UTF-8", "SJIS");
+
+/* "auto" 指定で、"ASCII,JIS,UTF-8,EUC-JP,SJIS" に展開 */
+$name = mb_convert_encoding($name, "EUC-JP", "auto");
+```
 
 #### mb_convert_kana()
 
 - ひらがな・カタカナ、全角・半角を相互に変換する。
 
+- 下記、オプション。
+
+|オプション|意味|
+|:---:|:---:|
+|r|「全角」英字を「半角」に変換|
+|R|「半角」英字を「全角」に変換|
+|n|「全角」数字を「半角」に変換|
+|N|「半角」数字を「全角」に変換|
+|a|「全角」英数字を「半角」に変換|
+|A|「半角」英数字を「全角」に変換|
+|s|「全角」スペースを「半角」に変換|
+|S|「半角」スペースを「全角」に変換|
+|k|「全角カタカナ」を「半角カタカナ」に変換|
+|K|「半角カタカナ」を「全角カタカナ」に変換|
+|h|「全角ひらがな」を「半角カタカナ」に変換|
+|H|「半角カタカナ」を「全角ひらがな」に変換|
+|c|「全角カタカナ」を「全角ひらがな」に変換|
+|C|「全角ひらがな」を「全角カタカナ」に変換|
+|V|濁点付きの文字を一文字に変換|
+
 - [公式マニュアル](http://php.net/manual/ja/function.mb-convert-kana.php)
+
+```php
+// mb_convert_kana(対象文字列,オプション)
+
+/* 「半角カタカナ」を「全角カタカナ」に変換し、「全角」英数字を「半角」に変換。 */
+$str = mb_convert_kana($str, "KVa");
+```
 
 #### trim(), ltrim(), rtrim()
 
@@ -268,43 +518,119 @@ echo $number;
 - [公式マニュアル](http://php.net/manual/ja/function.rtrim.php)
 
 ```php
-$name = ' oono ';
+// trim(対象文字列)
+// rtrim(対象文字列)
+// ltrim(対象文字列)
+
+$name = ' satou ';
 $job = ' engineer ';
-$origin = ' 沖縄 ';
- 
-//空白を取り除く
-$new_name = trim($name); // 「oono」
-$new_job = ltrim($job); // 「engineer 」
-$new_origin = rtrim($origin); // 「 沖縄」
+$origin = ' japan ';
+
+$new_name = trim($name);
+$new_job = ltrim($job);
+$new_origin = rtrim($origin);
+
+var_dump($new_name);
+var_dump($new_job);
+var_dump($new_origin);
+
+// 実行結果
+
+/*
+string(5) "satou"
+string(9) "engineer "
+string(6) " japan"
+*/
 ```
 
 #### mt_rand()
 
 - 指定された範囲でランダムな数値を返す。
 
-- rand() より精度が高い。
+- rand()より高精度。
 
 - [公式マニュアル](http://php.net/manual/ja/function.mt-rand.php)
 
+```php
+// mt_rand(最小値,最大値)
+
+// オプション指定なし。
+echo mt_rand() . "\n";
+// オプション指定あり。
+echo mt_rand(10,20);
+
+// 実行結果
+
+/*
+1458218741
+13
+*/
+```
+
 #### is_string()
 
-- 与えられた値が文字列であるかを返す。
+- 指定変数が文字列であるかを返す。
 
 - [公式マニュアル](http://php.net/manual/ja/function.is-string.php)
 
+```php
+// is_string(変数)
+
+$name="佐藤";
+if ( is_string($name) ) {
+　print "文字列です。";
+} else {
+　print "文字列ではありません。";
+}
+
+// 実行結果
+
+// 文字列です。
+```
+
 #### is_int()
 
-- 与えられた値が整数型であるかを返す。
+- 指定変数が整数型であるかを返す。
 
 - [公式マニュアル](http://php.net/manual/ja/function.is-int.php)
+
+```php
+// is_int(対象変数)
+
+$number=78.00;
+if (is_int($number)) {
+    echo '整数型です。';
+}else {
+    echo '整数型ではありません。';
+}
+
+// 実行結果
+
+// 整数型ではありません。
+```
 
 #### is_float()
 
 - 与えられた値が float型(少数) であるかを返す。
 
-- is_double() も存在するが内容は is_float() の別名。
+- is_double()も存在はするが、is_flostと同様。
 
 - [公式マニュアル](http://php.net/manual/ja/function.is-float.php)
+
+```php
+// is_float(対象変数)
+
+$number=78.00;
+if (is_float($number)) {
+    echo '浮動小数型です。';
+}else {
+    echo '浮動小数型ではありません。';
+}
+
+// 実行結果
+
+// 浮動小数型です。
+```
 
 #### is_numeric()
 
@@ -312,19 +638,108 @@ $new_origin = rtrim($origin); // 「 沖縄」
 
 - [公式マニュアル](http://php.net/manual/ja/function.is-numeric.php)
 
-#### round(), floor(), ceil()
+```php
+// is_numeric(対象変数)
 
-- round() は小数部分を四捨五入して返す。
+$str_number = '10';
+$int_number = 10;
 
-- floor() は小数点以下切り捨て、ceil() は小数点以下切り上げで丸める。
+if(is_numeric($str_number)){
+    echo 'これは数値として扱える。';
+}else{
+    echo '駄目です。';
+}
 
-- 桁数を指定することで小数点以下何桁から丸めるかを変更できる。
+// 実行結果
+
+// これは数値として扱える。
+```
+
+#### round()
+- 小数部分を四捨五入して整形。
+
+- 桁数指定で、変更できる。
+
+- 第三引数での「オプションモード」を指定できる。
+
+- 下記、オプションモード
+
+|定数|意味|
+|:---:|:---:|
+|PHP_ROUND_HALF_UP|小数点を指定桁数に、0から離れる方向に整形|
+|PHP_ROUND_HALF_DOWN|小数点を指定桁数に、0に近づく方向に整形|
+|PHP_ROUND_HALF_EVEN|小数点を指定桁数に、次の偶数に整形|
+|PHP_ROUND_HALF_ODD|小数点を指定桁数に、次の奇数に整形|
 
 - [公式マニュアル](http://php.net/manual/ja/function.round.php)
 
+```php
+// round(値,桁数,オプションモード)
+
+// 通常指定
+echo round(34.5) . "\n";
+// 桁数指定
+echo round(5.5555, 2) . "\n";
+echo round(123456789, -3);
+// モード指定
+echo round(-1.55, 1, PHP_ROUND_HALF_UP) . "\n";
+echo round(-1.55, 1, PHP_ROUND_HALF_DOWN) . "\n";
+echo round(-1.55, 1, PHP_ROUND_HALF_EVEN) . "\n";
+echo round(-1.55, 1, PHP_ROUND_HALF_ODD);
+
+// 実行結果
+
+/*
+35
+5.56
+123457000
+-1.6
+-1.5
+-1.6
+-1.5
+*/
+
+```
+
+#### floor()
+- 小数部分を、小数点以下切り捨てして整形。
+
+- `※値が小さい方へ小数点以下を切り捨てるため、マイナスの場合は注意`
+
 - [公式マニュアル](http://php.net/manual/ja/function.floor.php)
 
+```php
+// floor(値)
+
+echo floor(3.14) . "\n";
+echo floor(-3.14);
+
+// 実行結果
+
+/*
+3
+-4
+*/
+```
+
+#### ceil()
+- ceil() は小数点以下切り上げでして整形。
+
 - [公式マニュアル](http://php.net/manual/ja/function.ceil.php)
+
+```php
+// ceil(値)
+
+echo ceil(3.14) . "\n";
+echo ceil(-3.14);
+
+// 実行結果
+
+/*
+4
+-3
+*/
+```
 
 ### 配列
 
@@ -349,6 +764,10 @@ array_key_exists( 'キー', $配列名 )
 
 - [公式マニュアル](http://php.net/manual/ja/function.array-slice.php)
 
+```php
+
+```
+
 #### array_merge(), array_merge_recursive()
 
 - 配列同士を結合する。array_merge_recursive() は再帰的に結合するため多次元配列でも使える。
@@ -356,6 +775,10 @@ array_key_exists( 'キー', $配列名 )
 - [公式マニュアル](http://php.net/manual/ja/function.array-merge.php)
 
 - [公式マニュアル](http://php.net/manual/ja/function.array-merge-recursive.php)
+
+```php
+
+```
 
 #### in_array()
 
@@ -375,6 +798,10 @@ in_array('キー', $配列, true)
 
 - [公式マニュアル](http://php.net/manual/ja/function.shuffle.php)
 
+```php
+
+```
+
 #### sort(), rsort()
 
 - 配列を昇順、降順でソート（並び替え）する。キーは新しく割り振られるため、もともとのキーは削除される。
@@ -382,6 +809,10 @@ in_array('キー', $配列, true)
 - [公式マニュアル](http://php.net/manual/ja/function.sort.php)
 
 - [公式マニュアル](http://php.net/manual/ja/function.rsort.php)
+
+```php
+
+```
 
 #### asort(), arsort()
 
@@ -391,6 +822,10 @@ in_array('キー', $配列, true)
 
 - [公式マニュアル](http://php.net/manual/ja/function.arsort.php)
 
+```php
+
+```
+
 #### ksort(), krsort()
 
 - 配列のキーをもとに昇順、降順でソートする。
@@ -398,6 +833,10 @@ in_array('キー', $配列, true)
 - [公式マニュアル](http://php.net/manual/ja/function.ksort.php)
 
 - [公式マニュアル](http://php.net/manual/ja/function.krsort.php)
+
+```php
+
+```
 
 #### usort(), uasort(), uksort()
 
@@ -409,11 +848,19 @@ in_array('キー', $配列, true)
 
 - [公式マニュアル](http://php.net/manual/ja/function.uksort.php)
 
+```php
+
+```
+
 #### array_multisort()
 
 - 複数の配列を他の配列の値をもとにソートする。
 
 - [公式マニュアル](http://php.net/manual/ja/function.array-multisort.php)
+
+```php
+
+```
 
 #### array_unique()
 
@@ -421,11 +868,19 @@ in_array('キー', $配列, true)
 
 - [公式マニュアル](http://php.net/manual/ja/function.array-unique.php)
 
+```php
+
+```
+
 #### array_reverse()
 
 - 配列の要素を逆順にして返す。
 
 - [公式マニュアル](http://php.net/manual/ja/function.array-reverse.php)
+
+```php
+
+```
 
 #### array_shift(), array_pop()
 
@@ -439,6 +894,10 @@ in_array('キー', $配列, true)
 
 - [公式マニュアル](http://php.net/manual/ja/function.array-pop.php)
 
+```php
+
+```
+
 #### array_walk(), array_walk_recursive()
 
 - ユーザー定義関数を配列中のすべての値に適用する。
@@ -449,15 +908,89 @@ in_array('キー', $配列, true)
 
 - [公式マニュアル](http://php.net/manual/ja/function.array-walk-recursive.php)
 
+```php
+// array_walk(配列,定義関数,引数オプション)
+
+$array = array(10,20,30,40,50);
+function ten_add (&$i) {
+		$i += 10;
+	}
+array_walk($array,'tenAdd');
+print_r($array);
+
+// 実行結果
+
+/*
+Array
+(
+    [0] => 20
+    [1] => 30
+    [2] => 40
+    [3] => 50
+    [4] => 60
+)
+*/
+```
+
+```php
+// array_walk_recursive(配列,定義関数,引数オプション)
+
+$data = array('name' => '佐藤', 'age' => '67');
+$info = array('company' => $data, 'friend' => 'たくさん');
+
+function show_info($item, $key)
+{
+    echo "$key : $item\n";
+}
+
+array_walk_recursive($info, 'show_info');
+
+// 実行結果
+
+/*
+name : 佐藤
+age : 67
+friend : たくさん
+*/
+```
+
 #### array_search()
 
-- 配列の中から指定された値を持つ要素を検索し、見つかった場合そのキーを返す。
+- 指定要素を配列から検索。
+
+- 見つかった場合キー（要素番号）を返し、見つからなかった場合、falseを返す。
+
+- 「型チェックオプション」は省略可能だが、型判定をきちんと行うために、指定する。
 
 - [公式マニュアル](http://php.net/manual/ja/function.array-search.php)
+
+```php
+// array_search(検索値,配列,型チェックオプション)
+
+$names = ['佐藤', '鈴木', '田中'];
+$result = array_search('佐藤', $names,TRUE);
+print_r($result);
+
+// 実行結果
+
+// 0
+```
+
+```php
+$names = ['佐藤', '鈴木', '田中'];
+$result = array_search('高橋', $names,TRUE);
+echo $result;
+
+// 実行結果
+
+// (false)
+```
 
 #### implode(), explode()
 
 - implode() は指定された区切り文字をもとに配列を文字列として結合。
+
+- 指定配列は一次元配列である必要がある。
 
 - explode() は指定された区切り文字を元に文字列を配列に変換する。
 
@@ -466,18 +999,40 @@ in_array('キー', $配列, true)
 - [公式マニュアル](http://php.net/manual/ja/function.explode.php)
 
 ```php
+// implode(区切り文字,配列)
+
+$names = ['佐藤', '田中', '鈴木'];
+$result = implode(',', $names);
+echo $result;
+
+// 実行結果
+
+// 佐藤,田中,鈴木
+```
+
+```php
 <?php
-// 基本文
 // explode ( 区切り文字列 , 対象の文字列 ,最大要素数 )
 
 // 例1. 最大要素数指定なし。
 $arrayDayList = explode("/","2019/02/28");
+print_r($arrayDayList);
 
 // 例2. 最大指定数指定あり。
 $arrayEnglish = explode("/","A/B/C/D/E",2);
-```
+print_r($arrayEnglish);
 
-  
+// 実行結果
+
+/*
+Array
+(
+    [0] => 2019
+    [1] => 02
+    [2] => 28
+)
+*/
+```
 
 #### range()
 
@@ -485,54 +1040,224 @@ $arrayEnglish = explode("/","A/B/C/D/E",2);
 
 - [公式マニュアル](http://php.net/manual/ja/function.range.php)
 
-#### reset(), end()
+```php
+// range(開始値,終了値,要素毎の増加数)
 
-- reset() は配列のポインタを先頭の要素のセットし、その値を返す。
+// 増加数指定無しの場合
+foreach (range(0, 12) as $number) {
+    echo $number;
+}
 
-- reset() は配列のポインタを最後の要素のセットし、その値を返す。
+// 実行結果
 
-- 実際には配列の最初や最後の要素を取得する目的で使うことが多い。
+// 0123456789101112
 
-- [公式マニュアル](http://php.net/manual/ja/function.reset.php)
+// 増加数指定有りの場合
+foreach (range('a', 'z',5) as $english) {
+    echo $english;
+}
 
-- [公式マニュアル](http://php.net/manual/ja/function.end.php)
+// 実行結果
+
+// afkpuz
+```
+
+#### current()
+
+- 現在の配列のポインタが指す値取得。
+
+- [公式マニュアル](http://php.net/manual/ja/function.current.php)
+
+```php
+// next($配列)
+
+$names = array( "佐藤", "鈴木" , "田中" );
+$name = current($names);
+echo "$name";
+
+// 実行結果
+
+// 佐藤
+```
 
 #### next(), prev()
 
-- next() は配列のポインタを進め、その値を返す。
+- next()は配列のポインタを進め、その値を取得。
 
-- prev() は配列のポインタを戻し、その値を返す。
+- prev()は配列のポインタを戻し、その値を取得。
 
 - [公式マニュアル](http://php.net/manual/ja/function.next.php)
 
 - [公式マニュアル](http://php.net/manual/ja/function.prev.php)
 
-#### current()
+```php
+// next($配列)
+// prev($配列)
 
-- 現在の配列のポインタが指す値を返す。
+$names = array( "佐藤", "鈴木" , "田中" );
+$name = current($names);
+echo "$name\n";
+next($names);
+$name = current($names);
+echo "$name\n";
+prev($names);
+$name = current($names);
+echo "$name";
 
-- [公式マニュアル](http://php.net/manual/ja/function.current.php)
+// 実行結果
+
+/*
+佐藤
+鈴木
+佐藤
+*/
+```
+
+#### reset(), end()
+
+- reset()は配列のポインタを先頭の要素へ初期化し、その値を取得。
+
+- reset()は配列のポインタを最後の要素へ進めて、その値を取得。
+
+- 配列の最初や最後の要素を取得する目的で使うことが多い。
+
+- [公式マニュアル](http://php.net/manual/ja/function.reset.php)
+
+- [公式マニュアル](http://php.net/manual/ja/function.end.php)
+
+```php
+// reset($配列)
+// end($配列)
+
+$names = array( "佐藤", "鈴木" , "田中" );
+$name = current($names);
+echo "$name\n";
+$names = array( "佐藤", "鈴木" , "田中" );
+$name = next($names);
+echo "$name\n";
+$names = array( "佐藤", "鈴木" , "田中" );
+$name = reset($names);
+echo "$name\n";
+$names = array( "佐藤", "鈴木" , "田中" );
+$name = end($names);
+echo "$name";
+
+// 実行結果
+
+/*
+佐藤
+鈴木
+佐藤
+田中
+*/
+```
 
 #### extract()
 
-- 連想配列のキー部分を変数名とする変数を作る。
+- 配列を複数の変数に展開する。
+
+- 引数に指定できるオプションは、「EXTR_OVERWRITE」以外にもたくさんある。
+
+- `※信頼できない「$_GET」「$_POST」「$_FILES」には、絶対使わない`
 
 - [公式マニュアル](http://php.net/manual/ja/function.extract.php)
 
+```php
+// extract($配列);
+
+$data = array(
+    "name" => "佐藤",
+    "age" => "68",
+    "hobby" => "アイドル鑑賞"
+);
+extract($data);
+echo "名前 : {$name}";
+
+//　実行結果
+
+// 名前 : 佐藤
+```
+
+```php
+// 「EXTR_OVERWRITE」オプションを指定して、既存の変数を上書き。
+
+$name = '田中';
+
+$data = array(
+    "name" => "佐藤",
+    "age" => "68",
+    "hobby" => "アイドル鑑賞"
+);
+extract($data,EXTR_OVERWRITE);
+echo "名前 : {$name}";
+
+// 実行結果
+
+// 名前 : 佐藤
+```
+
 #### list()
 
-- 配列を引数として与えられた複数の変数に分けて代入する。
+- 配列の値を、複数の変数に代入。
+
+- 厳密には関数ではなく言語構造である。
 
 - [公式マニュアル](http://php.net/manual/ja/function.list.php)
 
+```php
+// list(変数) = 配列
+
+$data = array('佐藤', '12', '読書');
+list($name, $age, $hobby) = $data;
+echo "名前 : " . $name;
+
+// 実行結果
+
+// 名前 : 佐藤
+```
+
+```php
+$names = ['佐藤','田中','鈴木','鈴木','小松'];
+$items = ['item1', 'item2', 'item3'];
+ 
+list($names[0], $names[2]) = $items;
+ 
+print_r($names);
+
+// 実行結果
+
+/*
+Array
+(
+    [0] => item1
+    [1] => 田中
+    [2] => item2
+    [3] => 鈴木
+    [4] => 小松
+)
+*/
+```
+
 #### is_array()
 
-- 渡された値が配列であるかを返す。
+- 渡された変数が配列であるかを返す。
 
 - [公式マニュアル](http://php.net/manual/ja/function.is-array.php)
 
 ```php
-is_array($配列)
+// is_array(変数)
+
+$data = array("東京","大阪","福岡");
+is_array($data)
+if (is_array($data) ) {
+　echo "配列です";
+} else {
+　echo "配列ではありません";
+}
+
+// 実行結果
+
+// 配列です
 ```
 
 ### ファイル操作

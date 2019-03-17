@@ -16,6 +16,7 @@
     - [インストール手順](#インストール手順)
         - [Windows](#windows)
         - [macOS](#macos)
+    - [実行手順](#実行手順)
     - [構成](#構成)
         - [ライブラリ構成](#ライブラリ構成)
             - [Windows](#windows-1)
@@ -101,9 +102,32 @@ $ brew install pkg-config sdl2_image sdl2_ttf sdl2_mixer gstreamer
 - Cythonとkivyのインストール
 
 ```bash
-$ pip install -U Cython
+$ pip3 install -U Cython
 
-$ pip install kivy
+$ pip3 install kivy
+```
+
+## 実行手順
+- macを用いて、使用。
+- python3を用いて、実行
+- 任意のディレクトリに、「main.py」ファイルを作成
+
+```bash
+# ホームフォルダのworkフォルダに移動。なければ作成。
+$ cd ~/work
+# 作業用として、「python-practice」フォルダを作成
+$ mkdir python-practice
+# 作業フォルダに「main.py」ファイルを作成
+$ touch main.py
+```
+
+- main.pyに基本的に処理を書いていく。
+- 書き終わったら、実行して、画面を起動。
+
+```bash
+# main.pyファイルのあるフォルダまで移動
+$ cd ~/work/python-practice
+$ python3 main.py
 ```
 
 ## 構成

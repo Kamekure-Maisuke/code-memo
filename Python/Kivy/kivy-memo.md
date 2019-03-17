@@ -95,7 +95,7 @@ $ python -m pip install kivy
 - Homebrewを用いて、依存関係をインストール。
 
 ```bash
-$ brew install pkg-config sd12_image sd12_ttf sd12_mixer gstreamer
+$ brew install pkg-config sdl2_image sdl2_ttf sdl2_mixer gstreamer
 ```
 
 - Cythonとkivyのインストール

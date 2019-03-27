@@ -13,7 +13,17 @@
         - [Git History](#git-history)
         - [DeepScan](#deepscan)
         - [Gist](#gist)
+        - [Hub](#hub)
     - [キーボードショートカット](#キーボードショートカット)
+    - [URL操作](#url操作)
+        - [変更部分のみの可視化](#変更部分のみの可視化)
+        - [ブランチ一覧](#ブランチ一覧)
+        - [ブランチ間の比較](#ブランチ間の比較)
+        - [指定した行の強調表示](#指定した行の強調表示)
+    - [Gist操作](#gist操作)
+        - [ソースのHTML化](#ソースのhtml化)
+    - [Git.io操作](#gitio操作)
+        - [URLの短縮化](#urlの短縮化)
 
 <!-- /TOC -->
 
@@ -64,6 +74,11 @@
 - ディレクトリごとではなく、ファイルごとにgitで管理できる。
 - [Gist](https://gist.github.com/)
 
+### Hub
+- GitHubのコマンドラインツール
+- 「アクセスやクローン、プルリクエストの作成」等の操作がコマンド上で行うことができる。
+- [Hub](https://github.com/github/hub)
+
 ## キーボードショートカット
 - [全一覧はこちら](https://help.github.com/en/articles/using-keyboard-shortcuts)
 
@@ -89,3 +104,46 @@
 |Ctrl + K(Command + K)|リンクのマークダウン挿入<br>issuesやコメント等の際に、リンクの形式を挿入できる。|
 |Ctrl + i(Command + I|斜体のマークダウン挿入<br>issuesやコメント等の際に、斜体の形式を挿入できる。|
 |Ctrl + Shift + P(Command + Shift + P)|プレビュータブの切り替え<br>issuesやコメント等の際に、プレビューの切り替えができる。|
+
+## URL操作
+### 変更部分のみの可視化
+- GitHubの差分表示の際に、URLの末尾に`?w=1`とつける。
+- 例 : `https://github.com/ユーザー名/リポジトリ名/commit/コミット番号?w=1`
+
+### ブランチ一覧
+- マスターブランチにマージされていないブランチの一覧が表示される。
+- 例 : `https://github.com/ユーザー名/リポジトリ名/branches`
+
+### ブランチ間の比較
+- ブランチ間での比較ができる。
+- 例 : `https://github.com/ユーザー名/リポジトリ名/compare/ブランチ名@{1.day.ago}...ブランチ名`
+- 形式指定は下記。
+- 例 : `https://github.com/ユーザー名/リポジトリ名/compare/ブランチ名@{YYYY-MM-DD}...ブランチ名`
+
+### 指定した行の強調表示
+- コードファイルのURLの末尾に、`#L指定行`と付けると、指定行が強調表示してくれる。
+- 例 : `https://github.com/ユーザー名/リポジトリ名/blob/master/フォルダ名/ファイル名#L10`
+- また、下記のように指定すると、複数行の強調表示も可能。
+- 例 : `https://github.com/ユーザー名/リポジトリ名/blob/master/フォルダ名/ファイル名#L10-L20`
+
+
+## Gist操作
+### ソースのHTML化
+- GistのURLの最後に、`.pibb`をつけるとHTMLに変換してくれる。
+- 例 : `https://gist.github.com/ユーザー名/番号`
+
+## Git.io操作
+### URLの短縮化
+- GitHub専用の短縮URLサービスの`Git.io`で短縮化する方法は、下記の2点がある。
+    - [サイト](https://git.io/)上で、直接ソースを貼り付けて短縮化する方法。
+    - curlコマンドを使用して短縮化する方法。コマンド例は下記。
+        ```console
+        # GitHub URLを短縮化
+        $ curl -i https://git.io/ -F "url=https://github.com/..."
+        201 Created
+        Location: http://git.io/.....
+
+        # 接続確認
+        $ curl -i http://git.io/.....
+        302 Found
+        ```

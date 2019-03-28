@@ -130,7 +130,7 @@
 ## Gist操作
 ### ソースのHTML化
 - GistのURLの最後に、`.pibb`をつけるとHTMLに変換してくれる。
-- 例 : `https://gist.github.com/ユーザー名/番号`
+- 例 : `https://gist.github.com/ユーザー名/番号.pibb`
 
 ## Git.io操作
 ### URLの短縮化

@@ -168,3 +168,26 @@ CONTAINER id    IMAGE    COMMAND    CREATED
 ```console
 $ docker kill コンテナID
 ```
+
+- 下記のコマンドをうち、終了したコンテナも含めた一覧の確認。
+
+```console
+$ docker ps -a
+~~~~~~~~
+CONTAINER id    IMAGE    COMMAND    CREATED
+```
+
+- `docker run`で実行したコンテナが残っている状態になる。
+- このままではディスクが消費するため、下記のコマンドをうち、コンテナを削除。
+
+```console
+$ docker rm コンテナID
+```
+
+- その他の下記コマンド。
+
+|コマンド|内容|
+|:---:|:---:|
+|$docker kill<br>$docker ps -a|全てのコンテナを終了する。|
+|$docker rm<br>$docker ps -a -q|すべての終了しているコンテナを削除する。|
+|$docker rm -f<br>$docker ps -a -q|動作しているコンテナを含めて、すべてのコンテナを削除する。|

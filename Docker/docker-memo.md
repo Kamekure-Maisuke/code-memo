@@ -17,6 +17,13 @@
         - [ubuntu起動](#ubuntu起動)
         - [Nginxの起動](#nginxの起動)
         - [コンテナの確認](#コンテナの確認)
+    - [docker-compose](#docker-compose)
+        - [概要](#概要-1)
+        - [チュートリアル](#チュートリアル-1)
+            - [ファイル構成](#ファイル構成)
+            - [中身](#中身)
+            - [実行](#実行)
+            - [結果](#結果)
 
 <!-- /TOC -->
 
@@ -191,3 +198,67 @@ $ docker rm コンテナID
 |$docker kill<br>$docker ps -a|全てのコンテナを終了する。|
 |$docker rm<br>$docker ps -a -q|すべての終了しているコンテナを削除する。|
 |$docker rm -f<br>$docker ps -a -q|動作しているコンテナを含めて、すべてのコンテナを削除する。|
+
+## docker-compose
+### 概要
+- 複数のDockerコンテナを連携させて動作させるためのツール。
+- 設定ファイルを記述することで、ウェブサーバーやデータベースサーバなど複数のコンテナを動作、連携して、ウェブアプリケーション環境などを簡単に構築・実行できる。
+
+### チュートリアル
+- NginxとPHPの動作環境を作る。
+
+#### ファイル構成
+- ホームフォルダに「dockerwork」というフォルダを新規作成しておく。
+
+```
+dockework
+├docker-composer.yml
+├
+├PHP
+｜├Dockerfile
+```
+
+#### 中身
+- docker-compose.yml
+
+```yml
+version: '2'
+
+services:
+  nginx:
+    image: nginx
+    container_name: "test-web"
+    ports:
+      - "8080:80"
+  php:
+    build: ./php
+     container_name: "test-php"
+```
+
+- PHP/Dockerfile
+
+```dockerfile
+FROM php:7-fpm
+MAINTAINER t_o_d
+```
+
+#### 実行
+- 下記のコマンドで、実行。
+- ※「docker-compose.yml」のあるディレクトリで行う。
+
+```console
+$ docker-compose up --build -d
+```
+
+#### 結果
+- `localhost:8080`でアクセス
+
+![test](https://camo.qiitausercontent.com/1a703cf130a8faca5938558f23ea4af63d92309e/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e616d617a6f6e6177732e636f6d2f302f3333363439392f38373437346662622d386437392d363739312d326334352d6433656333393835656333632e706e67)
+
+- PHPのバージョン確認はこちら。
+
+```console
+$ docker-compose exec php php -v
+```
+
+- 停止するときは、`docer kill コンテナID`で停止。

@@ -16,6 +16,7 @@
         - [Hello World表示](#hello-world表示)
         - [ubuntu起動](#ubuntu起動)
         - [Nginxの起動](#nginxの起動)
+        - [MySQLの起動](#mysqlの起動)
         - [コンテナの確認](#コンテナの確認)
     - [docker-compose](#docker-compose)
         - [概要](#概要-1)
@@ -159,6 +160,17 @@ $ docker run -p 8080:80 nginx
 - ページ内に「Welcome to nginx」と表示されていれば、完了。
 
 - 「Ctrl + C」でWebサーバーの終了をする。
+
+### MySQLの起動
+- 下記のコマンドをうち、データベースサーバーを動かす。
+
+```console
+docker run -d -e MYSQL_ROOT_PASSWORD=password --name db mysql
+```
+
+- ※-e オプションで環境変数を指定できる。ここではパスワードを指定している。
+- ※--nameオプションで、コンテナに名前をつけることができる。ここでは「db」という名前にしている。
+- ※-dオプションをつけて、コンテナをバックグラウンドで実行することができる。
 
 ### コンテナの確認
 

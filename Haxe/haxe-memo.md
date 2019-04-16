@@ -1,4 +1,35 @@
 # Haxeメモ
+
+<!-- TOC -->
+
+- [Haxeメモ](#haxeメモ)
+    - [概要](#概要)
+    - [特徴](#特徴)
+        - [静的型付け](#静的型付け)
+        - [型推論](#型推論)
+        - [マルチプラットフォーム](#マルチプラットフォーム)
+        - [複数環境でのコードの共有](#複数環境でのコードの共有)
+        - [クラス定義での通信](#クラス定義での通信)
+    - [比較](#比較)
+        - [TypeScriptとの比較](#typescriptとの比較)
+    - [紹介サイト](#紹介サイト)
+    - [試用](#試用)
+        - [Try Haxe](#try-haxe)
+    - [記法](#記法)
+        - [チュートリアル](#チュートリアル)
+        - [ログ出力](#ログ出力)
+        - [コメント](#コメント)
+        - [変数](#変数)
+        - [型の種類](#型の種類)
+        - [型内容](#型内容)
+        - [型エラーの回避](#型エラーの回避)
+        - [構造体](#構造体)
+        - [型の別名](#型の別名)
+        - [演算子](#演算子)
+        - [制御文](#制御文)
+
+<!-- /TOC -->
+
 ## 概要
 - オープンソースの高級プログラミング言語
     - 高級言語 : 人間が理解しやすい記法で記述されているプログラミング言語。
@@ -182,3 +213,87 @@ a = "Hello";
 // 型パラメータへDynamicを使用
 var Group:Array<Dynamic> = [2,4,"Hello",34,"World"];
 ```
+
+### 構造体
+- JSONパース(解析)時や、複数の値を返す関数利用時に、便利。
+- 型指定は、`変数:{値:値の型}`のように指定。
+
+```haxe
+// 構造体定義(型推論)
+var userInfo = { name:"suzuki", age:57 };
+
+// 下記の記述で、型指定。
+var userInfo:{ name:String, age:Int } = { name:"suzuki", age:57 };
+```
+
+### 型の別名
+- 型へ別名を付けるときは、`typedef 別名 = 型`のように行う。
+- ※可読性が上がるぶん、実体把握が難しくなるため、乱用は避ける。
+
+```haxe
+typedef Age = Int;
+```
+
+- 構造体で利用する場合、下記のように行う。
+- ※構造体の型定義は、長くなるため、typedefを頻繁に利用。
+
+```haxe
+// 構造体型定義
+typedef UserInfo = {
+    Name:String,
+    Age:Int,
+}
+
+// クラス型定義
+typedef UserInfo ={
+    var Name:String;
+    var Age:Int;
+}
+```
+
+### 演算子
+- 他の言語の演算子と同様。
+
+```haxe
+// 足し算
+trace(4 + 5);
+// 引き算
+trace(6 - 5);
+// 掛け算
+trace(4 * 5);
+// 割り算
+trace(10 / 5);
+// 余り算
+trace(12 % 5);
+
+var number:Int = 9;
+// インクリメント
+number++;
+trace(number);
+// デクリメント
+number--;
+trace(number);
+// 代入演算子
+number += 3;
+trace(number);
+number -= 5
+trace(number);
+
+// 文字列連結
+trace("Hello" + "World")
+
+// 比較演算子
+var scoreX:Int = 89;
+var scoreY:Int = 92;
+trace(scoreX == scoreY);  // false
+trace(scoreX >= scoreY);  // false
+trace(scoreX <= scoreY);  // true
+
+// 論理演算子
+trace(true && false);  // false
+trace(true || false);  // true
+trace(!true);  // false
+```
+
+### 制御文
+- 続き

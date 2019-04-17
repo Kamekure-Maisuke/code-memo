@@ -27,6 +27,13 @@
         - [型の別名](#型の別名)
         - [演算子](#演算子)
         - [制御文](#制御文)
+            - [if](#if)
+            - [for](#for)
+            - [while](#while)
+            - [switch](#switch)
+        - [JavaScriptとの違い ~ 1弾](#javascriptとの違い--1弾)
+            - [if文の条件値](#if文の条件値)
+            - [switch文でのbreak記法](#switch文でのbreak記法)
 
 <!-- /TOC -->
 
@@ -296,4 +303,116 @@ trace(!true);  // false
 ```
 
 ### 制御文
-- 続き
+- 制御文も同様に、他言語と一緒。
+- ※for文やswitch文等は、記述が違う。
+
+#### if
+
+```haxe
+var age:Int = 22;
+if(age >= 20){
+    trace("成人");
+}else if(age < 20 && age >= 0){
+    trace("未成人");
+}else{
+    trace("error");
+}
+
+// 下記のような、if文に直接型を入れることはできない。
+// if (age) { 処理 }  ・・・これはエラー。
+```
+
+#### for
+- for文は、`for(カウンター変数名) in 開始値...終了値`のような形式で書く。
+- javascriptでの`for(var カウンター変数名 = 開始値;カウンター変数名<=終了値;カウンター変数名++)`と同様。
+- ※終了値は含まれない。
+- ※カウンター変数名は、「var宣言」や「型指定」はしない。
+
+```haxe
+for(i in 1...5){
+    // 1 ~ 4の数値が表示される。
+    trace(i);
+}
+```
+
+- 配列のforループは下記。
+
+```haxe
+var testGroup:Array<String> = [ "A","B","C" ]
+for(i in 0...testGroup.length){
+    // A ~ Cが順番に表示
+    // trace(i)　のように、配列内の値を直接使うこともできる。※結果は一緒。
+    trace(testGroup[i]);
+}
+```
+
+- Mapのforループは下記。
+- ※Mapは順序をもたないため、環境によって順番は変化。
+
+```haxe
+var testMap:Map<Int,String> = [1 => "suzuki", 2 => "tanaka", 3 => "satou"]
+for(i in testMap){
+    // suzuki,tanaka,satouが表示。※順番は問わない。
+    trace(i);
+}
+```
+
+```haxe
+var testMap:Map<Int,String> = [1 => "suzuki", 2 => "tanaka", 3 => "satou"]
+for(x in testMap.keys()){
+    // 1 ~ 3　までのキーが表示。※順番は問わない。
+    trace(i);
+}
+```
+
+#### while
+- whileは、`while(条件式){ ループ処理 }`のように行う。
+- 条件式は、Bool型(true or false)のみ
+
+```haxe
+var i:Int = 1;
+while(i < 5){
+    // 1 ~ 4までの値が表示。
+    trace(i);
+    // 値の更新を忘れない。
+    i++;
+}
+```
+
+#### switch
+- switch文は、下記のような形式で書く。
+- ※javascriptのような、`break;`がない。
+    - ※haxeでは、次のcase文で処理が終了するため。
+
+```haxe
+var number:Int = 2;
+switch(number){
+    case 0 :
+        trace("0です。");
+    case 1 :
+        trace("1です。");
+    // 複数の値の指定は、カンマで区切る。
+    case 2, 3 :
+        trace("2または3です。");
+    default :
+        trace("その他の値です。");
+}
+```
+
+### JavaScriptとの違い ~ 1弾
+- JavaScript等で利用可能ないくつかの文法は、Haxeでは使えない。
+- 主な使えない文法は下記。
+
+#### if文の条件値
+- haxeでは、if文の条件式に「true of false」しか入れることはできない。
+- ※「`a == 1`を`a = 1`を書き間違えてしまい、true判断されてしまった。」のような間違いを防ぐことができる。
+- ※`while(4)`も同様に、`while(true)`に修正する必要がある。
+
+```haxe
+// if(number){ 処理 }　ではエラー。
+if(number != 0){ 処理 } // このように修正
+if(number != null) { 処理 } // このような記述でも可能。
+```
+
+#### switch文でのbreak記法
+- ここから

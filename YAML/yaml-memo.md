@@ -102,4 +102,158 @@ $ ruby test.rb
 #### 3. マッピング
 - 連想配列やハッシュ。
     - key,value型のデータ
-- ここから
+- 下記、例。
+- ※「:」の後の空白は必要。
+
+```yaml
+# フロースタイル
+name: tanaka
+age: 67
+
+# インラインスタイル
+{ name: suzuki, age: 38 }
+
+# 入れ子
+name: satou
+age: 
+  first : 12
+  second: 24
+```
+
+### 様々な構造の組み合わせ
+
+#### シーケンスとマッピング
+- シーケンスとマッピングを組み合わせて、構造を定義。
+- 下記、「配列が値のハッシュ」
+
+```yaml
+# フロースタイル
+name: 
+  - tanaka
+  - satou
+  - suzuki
+age: 
+  - 56
+  - 30
+  - 35
+
+# インラインスタイル
+name: [tanaka,satou]
+age: [67,30]
+```
+
+- 下記、「ハッシュが値の配列」
+
+```yaml
+# フロースタイル
+- name: tanaka
+  age: 67
+- name: satou
+  age: 30
+- name: suzuki
+  age: 69
+
+# インラインスタイル
+- { name: tanaka, age: 67 }
+- { name: satou, age: 30 }
+```
+
+### 改行データの扱い
+- YAMLでは、改行は文字列として、扱われる場合がある。
+- 下記の書き方では、一つの文字列になる。
+
+```yaml
+# 結果 : "I am Tanaka ."
+
+I
+am
+Tanaka
+.
+```
+
+- 改行を含める場合、「|」という縦棒を加えた記述をする。
+- 下記、例。
+
+```yaml
+# 結果 : ["I\nam\nTanaka\n."]
+- |
+  I
+  am
+  Tanaka
+  .
+
+# 結果 : ["I\nam\nTanaka\n.\n"]
+- |+
+  I
+  am
+  Tanaka
+  .
+
+# 結果 : ["I\nam\nTanaka\n."]
+- |-
+  I
+  am
+  Tanaka
+  .
+
+```
+
+- 下記、「途中の改行はスペース、最後の改行だけ保持」の場合。
+- 「>」という、不等号を加える。
+
+```yaml
+# 結果 : ["I am Tanaka .\n"]
+- >
+  I
+  am
+  Tanaka
+  .
+
+# 結果 : ["I am Tanaka .\n\n"]
+- >+
+  I
+  am
+  Tanaka
+  .
+
+# 結果 : ["I am Tanaka ."]
+- >-
+  I
+  am
+  Tanaka
+  .
+
+```
+
+### アンカーとエイリアス
+- YAMLでは、アンカー(変数)とエイリアス(参照名、別名)をつけることができる。
+- 下記、基本例。
+
+```yaml
+# アンカー定義は、「&」で行う。
+- &name suzuki
+# エイリアス利用定義は、「*」で行う。
+- *name
+- &age 89
+- *age
+```
+
+- 下記、「ハッシュ」にアンカーやエイリアスを利用した、複雑なデータ構造例。
+
+```yaml
+- &satou
+  name: satou
+  age: 89
+- &suzuki
+  name: suzuki
+  age: 43
+  roommate:
+    - *satou
+- name: siraishi
+  age: 39
+  roommate:
+    - *satou
+    - *suzuki
+
+# 結果 : [{"name"=>"satou", "age"=>89}, {"name"=>"suzuki", "age"=>43, "roommate"=>[{"name"=>"satou", "age"=>89}]}, {"name"=>"siraishi", "age"=>39, "roommate"=>[{"name"=>"satou", "age"=>89}, {"name"=>"suzuki", "age"=>43, "roommate"=>[{"name"=>"satou", "age"=>89}]}]}]
+```

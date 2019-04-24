@@ -15,6 +15,9 @@
             - [シーケンスとマッピング](#シーケンスとマッピング)
         - [改行データの扱い](#改行データの扱い)
         - [アンカーとエイリアス](#アンカーとエイリアス)
+        - [ハッシュのマージ](#ハッシュのマージ)
+        - [データの区切り](#データの区切り)
+        - [RubyからYAMLへの変換](#rubyからyamlへの変換)
 
 <!-- /TOC -->
 
@@ -275,4 +278,89 @@ Tanaka
     - *suzuki
 
 # 結果 : [{"name"=>"satou", "age"=>89}, {"name"=>"suzuki", "age"=>43, "roommate"=>[{"name"=>"satou", "age"=>89}]}, {"name"=>"siraishi", "age"=>39, "roommate"=>[{"name"=>"satou", "age"=>89}, {"name"=>"suzuki", "age"=>43, "roommate"=>[{"name"=>"satou", "age"=>89}]}]}]
+```
+
+### ハッシュのマージ
+- YAMLでは、「<<」記号を用いることにより、ハッシュをマージ(反映)することができる。
+- 下記、例。
+
+```yaml
+# 共通化するもの
+common: &common
+  user: mydb
+  pass: mydbpass
+# 環境毎の設定(開発)
+devlopment: 
+  dbname: devdb
+  <<: *common  # 共通化部分のマージ(反映)
+# 環境毎の設定(ステージング)
+staging: 
+  dbname: stgdb
+  <<: *common
+# 環境毎の設定(本番)
+production: 
+  dbname: prodb
+  <<: *common
+```
+
+### データの区切り
+- YAMLでは、一つのファイルで、複数のデータ群を用いることが一般的。
+- その際は、下記の記号を用いる。
+    - 「---」・・・データの始まり
+    - 「...」・・・データの終わり
+- 下記、例。
+- ※複数のデータを扱うため、今までのRubyファイルは修正。
+
+```yaml
+# データ開始記号 : 「---」
+# データ終了記号 : 「...」
+---
+- tanaka
+- suzuki
+- satou
+...         # データ終了記号は省略できる。
+---
+- siraishi
+- hashimoto
+- matumura
+...
+```
+
+```ruby
+require 'yaml'
+
+# ファイル読み込みして、io変数に格納
+File.open('myinfo.yml') do |io|
+  # 複数のデータ読み込みは、「load_stream」を利用。
+  YAML.load_stream(io) do |d|
+    p d
+  end
+end
+```
+
+### RubyからYAMLへの変換
+- YAML記法を忘れた際に、Rubyの配列やハッシュを、YAML形式に変換してくれるものある。
+- 変換の際には、Rubyファイルで、「to_yaml」というメソッドを利用。
+
+```ruby
+require 'yaml'
+
+member = [
+    { 'name' => 'tanaka', 'age' => 78 },
+    { 'name' => 'suzuki', 'age' => 69 }
+]
+
+puts member.to_yaml
+
+=begin
+
+結果
+---
+- name: tanaka
+  age: 78
+- name: suzuki
+  age: 69
+
+=end
+
 ```

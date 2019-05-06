@@ -12,8 +12,9 @@
 ```
 g_extention
 └── first_tuttorial
+    ├── first_popup.html
     ├── manifest.json
-    └── penguin.ico
+    └── icon.png
 ```
 
 - `manifest.json`の中身を、下記にする。
@@ -64,3 +65,88 @@ g_extention
     - ※今回は、`first_tuttorial`フォルダ
 - 読み込み後、Chrome右上に、拡張機能アイコンが表示される。
 - クリックして、任意のポップアップ画面が表示されれば完了。
+
+### セカンドチュートリアル
+- 次は、タブのタイトル一覧を表示
+- ※ファイル構成は下記。
+
+```
+g_extention
+└── info_tab
+    ├── second_popup.html
+    ├── second_popup.js
+    ├── manifest.json
+    └── icon.png
+```
+
+- `manifest.json`の中身を下記にする。
+
+「manifest.json」
+
+```json
+{
+    "manifest_version": 2,
+    "description" : "get tab info",
+    "name": "second_tutorial",
+    "version": "1.0",
+
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "second_popup.html"
+    },
+
+    "permissions": [
+        "tabs"
+    ]
+}
+```
+
+- 新たに`second_popup.js`を新規作成して、中身を下記にする。
+
+```javascript
+'use strict';
+
+// 第一引数にタブ抽出条件指定(今回は空オブジェクト)
+// 第二引数に取得後の処理(コールバック)
+chrome.tabs.query({}, function(tabs){
+    // ループ変数の定義
+    var i;
+    // 結果一覧ID取得
+    var result = document.getElementById('result');
+    // タイトル一覧を配列で保持
+    var titles = [];
+    for(i = 0; i < tabs.length; i++){
+        // タブタイトルを配列にpush
+        titles.push(tabs[i].title);
+        // console.log(tabs[i].title);
+    }
+
+    // 結果を改行で区切る
+    result.value = titles.join("\n");
+    // テキストの選択状態
+    result.select();
+});
+```
+
+- 結果表示のため、`second_popup.html`の中身を下記にする。
+
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>second_extention</title>
+</head>
+<body>
+    <h1>Hello t_o_d</h1>
+
+    <!-- タイトル一覧表示 -->
+    <textarea id="result" cols="40" rows="5"></textarea>
+
+    <!-- セキュリティ上、外部ファイルの読み込みのみ -->
+    <script src="second_popup.js"></script>
+</body>
+</html>
+```
+
+- ファーストチュートリアル同様の手順で、拡張機能読み込みで、確認できたら完了。

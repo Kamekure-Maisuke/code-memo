@@ -10,15 +10,15 @@
     bar_1_y = bar_2_y = bar_3_y = 185;
 
     $(document).on('click', '#stop_btn_1', () => {
-        on_stop_1();
+        stop_bar(timer_1, flag_1);
     });
 
     $(document).on('click', '#stop_btn_2', () => {
-        on_stop_2();
+        stop_bar(timer_2, flag_2);
     });
 
     $(document).on('click', '#stop_btn_3', () => {
-        on_stop_3();
+        stop_bar(timer_3, flag_3);
     });
 
     $(document).on('click', '#start_button', () => {
@@ -41,7 +41,7 @@
         }
     }
     /* 「Stop」ボタンのクリック  */
-    /* 各「バー」移動関数「move_bar_1/2/3()」関数の「Interval_Timer」の停止 */
+    /* 各「バー」移動関数 */
     const on_stop = () => {
         clearInterval(timer_1);
         clearInterval(timer_2);
@@ -85,19 +85,9 @@
         }
     }
 
-    /* バーの移動停止関数 */
-    const on_stop_1 = () => {
-        clearInterval(timer_1);
-        flag_1 = true;
-    }
-
-    const on_stop_2 =() => {
-        clearInterval(timer_2);
-        flag_2 = true;
-    }
-
-    const on_stop_3 = () => {
-        clearInterval(timer_3);
-        flag_3 = true;
+    /* バー移動停止関数 */
+    const stop_bar = (timer, flag_num) => {
+        clearInterval(timer);
+        flag_num = true;
     }
 }

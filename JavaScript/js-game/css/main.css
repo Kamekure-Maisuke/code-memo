@@ -1,7 +1,7 @@
 /* スロットマシーンデザイン */
 #container {
     text-align: center;
-    font-size: 30px;
+    font-size: 1.5rem;
 }
 .bar_layout {
     position: absolute;

@@ -1,40 +1,27 @@
 /* スロットマシーンデザイン */
-
 #container {
     text-align: center;
     font-size: 30px;
 }
-
-.bar_1 {
+.bar_layout {
     position: absolute;
     z-index: 0;
     top: 185px;
+    height: 305px;
+    border: 2px #f00 solid;
+}
+.bar_1 {
     left: 350px;
     width: 70px;
-    height: 305px;
-    border: 2px #f00 solid;
 }
-
 .bar_2 {
-    position: absolute;
-    z-index: 0;
-    top: 185px;
     left: 435px;
     width: 70px;
-    height: 305px;
-    border: 2px #f00 solid;
 }
-
 .bar_3 {
-    position: absolute;
-    z-index: 0;
-    top: 185px;
     left: 520px;
     width: 70px;
-    height: 305px;
-    border: 2px #f00 solid;
 }
-
 .back_1 {
     position: absolute;
     z-index: 1;
@@ -45,61 +32,41 @@
     border: 2px #f00 solid;
     border-radius: 25px
 }
-
 .title_1 {
     position: absolute;
     z-index: 1;
     top: 100px;
     left: 310px;
 }
-
+.stop_btn {
+    position: absolute;
+    z-index: 1;
+    top: 450px;
+    font-size: 60%;
+    color: white;
+    background-color: #000000;
+    border: 2px #f00 solid;
+}
 #stop_btn_1 {
-    position: absolute;
-    z-index: 1;
-    top: 450px;
     left: 350px;
-    font-size: 60%;
-    color: white;
-    background-color: #000000;
-    border: 2px #f00 solid;
 }
-
 #stop_btn_2 {
-    position: absolute;
-    z-index: 1;
-    top: 450px;
     left: 440px;
-    font-size: 60%;
-    color: white;
-    background-color: #000000;
-    border: 2px #f00 solid;
 }
-
 #stop_btn_3 {
-    position: absolute;
-    z-index: 1;
-    top: 450px;
     left: 525px;
-    font-size: 60%;
-    color: white;
-    background-color: #000000;
-    border: 2px #f00 solid;
 }
-
-#start_button {
+.btn_layout {
     position: absolute;
     z-index: 1;
     top: 550px;
-    left: 370px;
     font-size: 100%;
+}
+#start_button {
+    left: 370px;
     background-color: #ff00ff;
 }
-
 #stop_button {
-    position: absolute;
-    z-index: 1;
-    top: 550px;
     left: 490px;
-    font-size: 100%;
     background-color: red;
 }

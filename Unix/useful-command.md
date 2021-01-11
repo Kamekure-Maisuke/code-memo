@@ -161,3 +161,27 @@ awk '{
   for(i=0;i<NR;i++) printf $1
 }'
 ```
+
+## 連続空白区切りデータ出力
+- `docker search`コマンドの出力のように、データが連続空白区切りのデータ形式は多い。
+  - データの中身が文章で、空白がある場合もある。
+- そのため、2個以上の空白及びタブ2個以上を区切り文字として設定するawkスクリプトは以下。
+
+```bash
+$ docker search ubuntu | head -n 4
+
+NAME                                                      DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED
+ubuntu                                                    Ubuntu is a Debian-based Linux operating sys…   11708               [OK]                
+dorowu/ubuntu-desktop-lxde-vnc                            Docker image to provide HTML5 VNC interface …   487                                     [OK]
+websphere-liberty                                         WebSphere Liberty multi-architecture images …   266                 [OK]            
+
+
+# NAMEとSTAR一覧を出力
+# スペース3つ以上またはタブ2つ以上を区切り文字に設定。
+$ docker search ubuntu | head -n 4 | awk -F ' {3,}|\t{2,}' '{print $1,$3}'
+
+NAME STARS
+ubuntu 11708
+dorowu/ubuntu-desktop-lxde-vnc 487
+websphere-liberty 266
+```

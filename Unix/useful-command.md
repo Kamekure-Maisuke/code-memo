@@ -113,6 +113,11 @@ git config -l
 ```bash
 #!bin/sh
 
+# trコマンドエラー回避のため。
+export LC_ALL=C
+# /dev/urandomを利用(推奨)
+cat /dev/urandom | tr -cd 0-9a-zA-Z | head -c 20
+
 # /dev/urandomを利用
 od -A n -t u4 -N 4 /dev/urandom | sed 's/[^0-9]//g'
 

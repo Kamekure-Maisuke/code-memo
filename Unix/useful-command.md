@@ -190,3 +190,11 @@ ubuntu 11708
 dorowu/ubuntu-desktop-lxde-vnc 487
 websphere-liberty 266
 ```
+
+## XMLデータ区切り
+- 以下。
+- 区切り文字を、`[<>]`で行えば扱いやすくなる。
+
+```bash
+awk -F '[<>]' '$2=="タグ名"{pref=$3}/タグ名検索/{print pref,$3}'
+```

@@ -198,3 +198,19 @@ websphere-liberty 266
 ```bash
 awk -F '[<>]' '$2=="タグ名"{pref=$3}/タグ名検索/{print pref,$3}'
 ```
+
+## XMLlint
+- xmllintでは以下のオプションをつけて、grepやawkと組み合わせて利用する。
+    - `--format` : xmlを綺麗に整形する。
+    - `--nocdata` : cdataタグがついていれば除外する。
+- 下記、あるトレンドXML取得の例。
+    - 一度curlでローカルファイル(`data`)に保存する。
+
+```bash
+#!bin/sh
+
+xmllint --format --nocdata data |
+grep -F -e '<title>' -e '<link>' |
+sed '1,4d' |
+awk -F '[<>]' '{if(NR%2)ORS=" ";else ORS="\n"; print $3}'
+```

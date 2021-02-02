@@ -214,3 +214,18 @@ grep -F -e '<title>' -e '<link>' |
 sed '1,4d' |
 awk -F '[<>]' '{if(NR%2)ORS=" ";else ORS="\n"; print $3}'
 ```
+
+## 文字列のURLエンコード
+- urlエンコードする際のメモ。
+    - `curl --data-urlencode`でも可能。
+    - 以下は変数として格納。
+    
+
+```bash
+# クエリ格納
+info=$(printf "大根" | xxd -u -p | fold -2 | sed 's/^/%/' | tr -d '\n')
+
+# 確認
+# GET_URL : https://example.com/%E5%A4%A7%E6%A0%B9
+curl -s "https://example.com/${info}"
+```

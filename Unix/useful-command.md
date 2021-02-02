@@ -223,9 +223,18 @@ awk -F '[<>]' '{if(NR%2)ORS=" ";else ORS="\n"; print $3}'
 
 ```bash
 # クエリ格納
+# info : %E5%A4%A7%E6%A0%B9
 info=$(printf "大根" | xxd -u -p | fold -2 | sed 's/^/%/' | tr -d '\n')
 
 # 確認
 # GET_URL : https://example.com/%E5%A4%A7%E6%A0%B9
 curl -s "https://example.com/${info}"
+```
+
+- odコマンドでも可能。こちらの方がプロセスは少ない。
+    - **※awkのprintf内でのパーセントのエスケープは、`%%`とする。**
+
+```bash
+# info : %E5%A4%A7%E6%A0%B9
+info=$(printf '大根' | od -t x1 | awk 'NR==1{for(i=2;i<=NF;i++) printf "%%" toupper($i)}')
 ```

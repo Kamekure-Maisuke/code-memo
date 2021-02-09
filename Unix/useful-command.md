@@ -245,3 +245,18 @@ info=$(printf '大根' | od -t x1 | awk 'NR==1{for(i=2;i<=NF;i++) printf "%%" to
 ```shell
 printf 'printf 'Jan\nFeb\nMar\nApr\nMay\nJun\nJul\nAug\nSep\nOct\nNov\nDec\n'' | nl -w 2 -n rz
 ```
+
+## 同じ文字列を指定回数表示する速度比較
+- 以下の順に速い。
+
+
+```bash
+# 方法1
+printf 'hello\n%.0s' {1..1000}
+
+# 方法2(macやbsd系)
+seq -f 'hello' 1000
+
+# 方法3
+yes | head -n 1000
+```

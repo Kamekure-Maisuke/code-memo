@@ -238,3 +238,10 @@ curl -s "https://example.com/${info}"
 # info : %E5%A4%A7%E6%A0%B9
 info=$(printf '大根' | od -t x1 | awk 'NR==1{for(i=2;i<=NF;i++) printf "%%" toupper($i)}')
 ```
+
+## GMT日時の対応表
+- GMT日時で`Jan`等をshellで扱う際の対応表コマンド。
+
+```shell
+printf 'printf 'Jan\nFeb\nMar\nApr\nMay\nJun\nJul\nAug\nSep\nOct\nNov\nDec\n'' | nl -w 2 -n rz
+```

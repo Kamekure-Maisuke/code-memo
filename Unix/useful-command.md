@@ -260,3 +260,30 @@ seq -f 'hello' 1000
 # 方法3
 yes | head -n 1000
 ```
+
+## サンプルデータ作成
+- awk単独とyesを利用の2種類。
+
+```bash
+# awk単独
+awk 'BEGIN{print "id score"; srand(); for(i=1;i<=10;i++) print i,rand()*1000}'
+
+# yes利用
+yes | awk 'BEGIN{srand();print "id score"}NR>10{exit}{print NR,rand()}'
+```
+
+- 作成例
+
+```
+id score
+1 0.22388
+2 0.45509
+3 0.371985
+4 0.849237
+5 0.611552
+6 0.486321
+7 0.100832
+8 0.337108
+9 0.758404
+10 0.170222
+```

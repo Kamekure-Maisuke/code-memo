@@ -59,6 +59,8 @@ seq 1 10 | awk '{result+=$1} END{print $1}'
 # 別の書き方
 # 縦の標準列を「-s」で横に入れ替えて、-dで+で連結して、bcで計算。
 seq 1 10 | paste -s -d+ - | bc
+# 別の書き方
+seq -s "+" 10 | bc
 
 # forの代わり
 # before
@@ -243,7 +245,7 @@ info=$(printf '大根' | od -t x1 | awk 'NR==1{for(i=2;i<=NF;i++) printf "%%" to
 - GMT日時で`Jan`等をshellで扱う際の対応表コマンド。
 
 ```shell
-printf 'printf 'Jan\nFeb\nMar\nApr\nMay\nJun\nJul\nAug\nSep\nOct\nNov\nDec\n'' | nl -w 2 -n rz
+printf 'Jan\nFeb\nMar\nApr\nMay\nJun\nJul\nAug\nSep\nOct\nNov\nDec\n' | nl -w 2 -n rz
 ```
 
 ## 同じ文字列を指定回数表示する速度比較

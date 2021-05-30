@@ -126,6 +126,12 @@ tr -dc 'a-z0-9A-Z' </dev/urandom | head -c 10
 # /dev/urandomを利用
 od -A n -t u4 -N 4 /dev/urandom | sed 's/[^0-9]//g'
 
+# opensslコマンドを利用
+openssl rand -hex 10
+
+# md5コマンド
+date | md5
+
 # awkでも可能。
 awk 'BEGIN{srand();print rand();}'
 ```

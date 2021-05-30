@@ -136,6 +136,12 @@ date | md5
 awk 'BEGIN{srand();print rand();}'
 ```
 
+## ランダムjson生成
+
+```bash
+for i in $(jot 10); do echo "{\"id\": ${i}, \"name\":\"$(openssl rand -hex 6)\", \"age\":$(jot -r 1)}"; done
+```
+
 ## 正規表現と拡張正規表現比較
 - shellやawk、sed等で利用できる正規表現は、以下の2つ。
   - 基本正規表現 : BRE

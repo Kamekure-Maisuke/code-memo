@@ -278,7 +278,7 @@ seq -f 'hello' 1000
 yes | head -n 1000
 ```
 
-## サンプルデータ作成
+## サンプルデータ作成(ssv)
 - awk単独とyesを利用の2種類。
 
 ```bash
@@ -303,4 +303,24 @@ id score
 8 0.337108
 9 0.758404
 10 0.170222
+```
+
+## サンプルデータ作成(json)
+- ランダムデータのjsonを作成
+
+```bash
+awk 'BEGIN{srand(); for(i=1;i<=10;i++) print "{\"id\":"i", \"score\":"int(rand()*1000)"}"}'
+```
+
+```
+{"id":1, "score":987}
+{"id":2, "score":808}
+{"id":3, "score":865}
+{"id":4, "score":306}
+{"id":5, "score":718}
+{"id":6, "score":817}
+{"id":7, "score":286}
+{"id":8, "score":211}
+{"id":9, "score":633}
+{"id":10, "score":174}
 ```

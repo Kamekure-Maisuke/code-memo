@@ -256,6 +256,13 @@ curl -s "https://example.com/${info}"
 info=$(printf '大根' | od -t x1 | awk 'NR==1{for(i=2;i<=NF;i++) printf "%%" toupper($i)}')
 ```
 
+- jqコマンドの利用
+  - こちらの方が正確かも。半角英数字も考慮してくれる。
+
+```bash
+printf "大根" | jq -sRr @uri
+```
+
 ## GMT日時の対応表
 - GMT日時で`Jan`等をshellで扱う際の対応表コマンド。
 

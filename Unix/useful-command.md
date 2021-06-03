@@ -341,3 +341,17 @@ awk 'BEGIN{srand(); for(i=1;i<=10;i++) print "{\"id\":"i", \"score\":"int(rand()
 ```bash
 tr -dc '[:alnum:]' </dev/urandom | fold -w 6 | head -n5 | awk '{printf("{\"id\":%d,\"name\":\"%s\"}\n",NR,$1)}'
 ```
+
+- 下記でも可能。awk単体。
+
+```bash
+awk 'BEGIN{
+    srand()
+    rand_command="tr -dc '[:alnum:]' </dev/urandom | head -c 5"
+    for(i=1;i<=10;i++){
+        rand_command | getline name
+        close(rand_command)
+        printf("{\"id\": %d,\"name\": %s,\"score\": %d}\n",i,name,rand()*100)
+    }
+}'
+```

@@ -142,6 +142,10 @@ awk 'BEGIN{srand();print rand();}'
 for i in $(jot 10); do echo "{\"id\": ${i}, \"name\":\"$(openssl rand -hex 6)\", \"age\":$(jot -r 1)}"; done
 ```
 
+```bash
+tr -dc '[:alnum:]' </dev/urandom | fold -w 6 | head -n5 | awk '{printf("{\"id\":%d,\"name\":\"%s\"}\n",NR,$1)}'
+```
+
 ## 正規表現と拡張正規表現比較
 - shellやawk、sed等で利用できる正規表現は、以下の2つ。
   - 基本正規表現 : BRE
@@ -330,4 +334,10 @@ awk 'BEGIN{srand(); for(i=1;i<=10;i++) print "{\"id\":"i", \"score\":"int(rand()
 {"id":8, "score":211}
 {"id":9, "score":633}
 {"id":10, "score":174}
+```
+
+- 下記でも可能。
+
+```bash
+tr -dc '[:alnum:]' </dev/urandom | fold -w 6 | head -n5 | awk '{printf("{\"id\":%d,\"name\":\"%s\"}\n",NR,$1)}'
 ```

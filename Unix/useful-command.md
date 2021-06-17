@@ -355,3 +355,22 @@ awk 'BEGIN{
     }
 }'
 ```
+
+## Windowサイズ確認
+- ターミナルのウィンドウサイズを計測
+
+```bash
+windowsize=`stty size`
+echo $windowsize    # 縦横両方
+echo ${windowsize% *} # 横
+echo ${windowsize#* } # 縦
+```
+
+- bashでは以下。
+
+```bash
+# 文末の「(:;:)」を記述して、即反映されない。
+shopt -s checkwinsize; (:;:)
+echo $LINES  # 横
+echo $COLUMNS  # 縦
+```

@@ -374,3 +374,10 @@ shopt -s checkwinsize; (:;:)
 echo $LINES  # 横
 echo $COLUMNS  # 縦
 ```
+
+## csv,tsv整形
+- csv整形
+  - `cat data.csv | column -s, -t`
+
+- tsv整形
+  - `cat data.tsv | column -ts $'\t'`

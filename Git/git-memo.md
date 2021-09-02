@@ -291,3 +291,10 @@ $ git gc
 ```console
 $ git clone -b ブランチ名 http://abcdef.com/ghijk.git
 ```
+
+## 便利コマンド
+
+```bash
+# 作者抽出
+git log --format='%aN <%aE>' | sort -u
+```

@@ -60,7 +60,7 @@ echo "c(90)" | bc -l
 echo "sqrt(25)" | bc -l
 
 # おまけ : 有理数判定
-seq 10 | sed -r 's/[0-9]+/sqrt(&)/' | bc -l | grep -n -E '[0-9]\.0+'
+seq 10 | sed -r 's/[0-9]+/sqrt(&)/' | bc -l | grep -n -E '^[0-9]+\.0+$'
 ```
 
 - 計算ライブラリ一覧は以下。

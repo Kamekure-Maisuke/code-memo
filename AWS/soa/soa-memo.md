@@ -85,3 +85,12 @@
   - **system manager automation**
   - 例 : cloudtrailの証跡有効化・s3バケットの非公開・インスタンスの停止
   - 使えるタスクはAWS公開のやつも自分で作成したものでも可。
+
+## AWS Personal Health Dashboard
+- 客の環境に影響を及ぼすイベントのアラートや対処方法を提供するもの。
+- 全体を表示するservice dashboardと違い、客の環境に関する明確な通知が事前に表示される。
+- このdashboardを通して以下と連携
+  - cloudwatch
+    - アカウント固有のイベント
+  - service health dashboard
+    - 公開イベント。リージョン規模の障害。

@@ -53,3 +53,35 @@
     - メトリクスフィルターによりイベントの監視
   - cloudwatch event(event bridge)
     - 証跡イベントのルールを設定して、他サービスの自動実行
+
+## AWS Config
+- リソースの設定を評価・監査・審査できるサービス。
+- 設定変更の記録に特化している。
+  - cloudtrailは全て記録する。
+- 設定変更の際にSNS通知のトリガーなどができる。
+- 連携できるサービスは以下。
+  - aws config api
+  - s3
+  - cloudwatch
+  - sns
+- 評価のためにはルールの作成が必要。種類は以下。
+  - **マネージドルール** : 事前定義済みのルール
+  - **カスタムルール** : 独自評価を行うルール
+    - ルールはlambda作成
+- 評価のタイミングは以下。
+  - 設定変更 : リソース変更の際。
+  - 定期的 : 指定した間隔ごと。
+- 有効化しておくべきマネージドルールは以下。
+  - cloudtrail-enabled : cloudtrailが有効になっているか
+    - 定期的
+  - ec2-evs-encryptioon-by-default : ebs暗号化が有効になっているか
+    - 定期的
+  - ec2-instance-no-public-ip : パブリックIPが関連づけられているか
+    - 設定変更
+  - iam-user-mfa-enabled : IAMのMFA認証が有効になっているか。
+    - 定期的
+  - s3-account-level-public-access : s3のパブリックアクセスブロックがアカウントレベル設定されているか
+- 定義したルールに合わない場合、**修復アクション**を実行
+  - **system manager automation**
+  - 例 : cloudtrailの証跡有効化・s3バケットの非公開・インスタンスの停止
+  - 使えるタスクはAWS公開のやつも自分で作成したものでも可。

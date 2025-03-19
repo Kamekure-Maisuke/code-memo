@@ -1,0 +1,56 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "github:NixOS/nixpkgs/nixpkgs-unstable": {
+      "resolved": "github:NixOS/nixpkgs/3549532663732bfd89993204d40543e9edaec4f2?lastModified=1742272065&narHash=sha256-ud8vcSzJsZ%2FCK%2Br8%2Fv0lyf4yUntVmDq6Z0A41ODfWbE%3D"
+    },
+    "swi-prolog@latest": {
+      "last_modified": "2025-03-11T17:52:14Z",
+      "resolved": "github:NixOS/nixpkgs/0d534853a55b5d02a4ababa1d71921ce8f0aee4c#swi-prolog",
+      "source": "devbox-search",
+      "version": "9.2.9",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/yyfpd7wbbn4q6ppy3klvq515kqvns01c-swi-prolog-9.2.9",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/yyfpd7wbbn4q6ppy3klvq515kqvns01c-swi-prolog-9.2.9"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/4y2pah43vpvgp8185qx0ri7nf7bay16z-swi-prolog-9.2.9",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/4y2pah43vpvgp8185qx0ri7nf7bay16z-swi-prolog-9.2.9"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/qn6vrwg363gnqy9idb4zk0bpz5iwph98-swi-prolog-9.2.9",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/qn6vrwg363gnqy9idb4zk0bpz5iwph98-swi-prolog-9.2.9"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/ihqj6v5qqjj73dk4vifrfrpf6pgpgxzd-swi-prolog-9.2.9",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/ihqj6v5qqjj73dk4vifrfrpf6pgpgxzd-swi-prolog-9.2.9"
+        }
+      }
+    }
+  }
+}
